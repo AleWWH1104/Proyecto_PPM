@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Idioma Espanol -->
+    <string name="welcome">¡Bienvenido de nuevo!</string>
+    <string name="createAccount">Crear una cuenta</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="signIn">Iniciar sesión</string>
+    <string name="signUp">Registrarse</string>
+    <string name="signOut">Cerrar sesión</string>
+    <string name="DeleteAccount">Eliminar cuenta</string>
+    <string name="slogan">Personaliza y comparte tu lista de deseos</string>
+    <string name="HiUser">Hola</string>
+    <string name="home">Inicio</string>
+    <string name="newList">Nueva lista</string>
+    <string name="profile">Perfil</string>
+    <string name="WishList">Crear una nueva lista de deseos</string>
+    <string name="listName">Nombre de la lista</string>
+    <string name="event">Selecciona el tipo de evento</string>
+    <string name="createList">Crear</string>
+    <string name="lookItem">Buscar un nuevo deseo</string>
+    <string name="addBtn">Añadir</string>
+    <string name="seeBtn">Ver</string>
+    <string name="deleteBtn">Eliminar</string>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <!--Idioma Ingles -->
+    <string name="welcome">Welcome Back!</string>
+    <string name="createAccount">Create an Account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="signIn">Sign In</string>
+    <string name="signUp">Sign Up</string>
+    <string name="signOut">Sign Out</string>
+    <string name="DeleteAccount">Delete Account</string>
+    <string name="slogan">Personalize and share your wishlist</string>
+    <string name="HiUser">Hello</string>
+    <string name="home">Home</string>
+    <string name="newList">New List</string>
+    <string name="profile">Profile</string>
+    <string name="WishList">Create a new Wishlist</string>
+    <string name="listName">List Name</string>
+    <string name="event">Select type of event</string>
+    <string name="createList">Create</string>
+    <string name="lookItem">Look for a new wish</string>
+    <string name="addBtn">Add</string>
+    <string name="seeBtn">See</string>
+    <string name="deleteBtn">Delete</string>
+</resources>
