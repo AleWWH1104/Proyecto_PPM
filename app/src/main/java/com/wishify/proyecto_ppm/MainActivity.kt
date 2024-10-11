@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.wishify.proyecto_ppm.ui.theme.AppTheme
-import com.wishify.proyecto_ppm.ui.wishLists.view.MainLists
+import com.wishify.proyecto_ppm.ui.wishLists.view.AddList_Screen
 
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                MainLists()
+                AddList_Screen()
             }
         }
     }
@@ -31,6 +31,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     AppTheme {
-        MainLists()
+        AddList_Screen()
     }
 }

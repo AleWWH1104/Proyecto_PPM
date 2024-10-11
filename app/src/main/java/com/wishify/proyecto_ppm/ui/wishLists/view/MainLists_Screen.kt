@@ -1,6 +1,5 @@
 package com.wishify.proyecto_ppm.ui.wishLists.view
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -16,11 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
-import com.wishify.proyecto_ppm.navigation.AppBar
+import com.wishify.proyecto_ppm.ui.elements.AppBar
 
 @Preview(showBackground = true)
 @Composable
@@ -42,7 +39,7 @@ fun MainLists() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFf8ebe5))
+                .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ) {
             Column(

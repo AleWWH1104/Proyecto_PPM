@@ -1,5 +1,4 @@
-package com.wishify.proyecto_ppm.navigation
-import androidx.compose.foundation.background
+package com.wishify.proyecto_ppm.ui.elements
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,8 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.graphics.Color
 import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.wishify.proyecto_ppm.ui.theme.AppTheme
 
 @Preview(showBackground = true)
 @Composable
