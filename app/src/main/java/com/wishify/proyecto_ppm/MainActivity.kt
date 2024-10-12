@@ -4,15 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.wishify.proyecto_ppm.ui.theme.AppTheme
-import com.wishify.proyecto_ppm.ui.wishLists.view.AddList_Screen
+import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
 
 
 class MainActivity : ComponentActivity() {
@@ -21,16 +16,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                AddList_Screen()
+                ViewList()
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AppTheme {
-        AddList_Screen()
     }
 }

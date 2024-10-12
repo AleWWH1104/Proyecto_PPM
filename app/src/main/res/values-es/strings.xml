@@ -22,4 +22,6 @@
     <string name="addBtn">Añadir</string>
     <string name="seeBtn">Ver</string>
     <string name="deleteBtn">Eliminar</string>
+    <string name="reserBtn">Reserve</string>
+    <string name="shareBtn">Reserve</string>
 </resources>
