@@ -88,7 +88,6 @@ fun AddList_Screen(){
                             selectEvent("Boda")
                             selectEvent("Cumpleanos")
                             selectEvent("Graduacion")
-                            selectEvent("Navidad")
                         }
                         Row(
                             modifier = Modifier
@@ -98,7 +97,6 @@ fun AddList_Screen(){
                         ){
                             selectEvent("Halloween")
                             selectEvent("New Year")
-                            selectEvent("San Valentin")
                             selectEvent("Otros")
                         }
                         Spacer(modifier = Modifier.weight(1f))
