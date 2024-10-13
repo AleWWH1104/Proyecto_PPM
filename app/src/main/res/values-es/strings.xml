@@ -19,6 +19,9 @@
     <string name="event">Selecciona el tipo de evento</string>
     <string name="createList">Crear</string>
     <string name="lookItem">Buscar un nuevo deseo</string>
+    <string name="typesProductos">Tipos de experiencias/productos</string>
+    <string name="describeWish">Ponle detalles a tu deseo</string>
+    <string name="aboutWish">Acerca del regalo</string>
     <string name="addBtn">Añadir</string>
     <string name="seeBtn">Ver</string>
     <string name="deleteBtn">Eliminar</string>

@@ -17,18 +17,41 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Inputs_TextField(){
-    OutlinedTextField(
+fun LargeTextField(){
+    TextField(
+        value = "",
+        onValueChange ={},
+        colors = TextFieldDefaults.textFieldColors(
+        containerColor = Color(0xFFa8a6a4),
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedIndicatorColor = Color.White,
+            unfocusedIndicatorColor = Color.White
+        ),
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .padding(vertical = 16.dp)
+            .height(100.dp)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun smallTexField(){
+    TextField(
         value = "",
         onValueChange = { },
-        shape = RoundedCornerShape(50), // Redondeado
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color(0xFFC97763),
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedIndicatorColor = Color.White,
+            unfocusedIndicatorColor = Color.White
+        ),
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .fillMaxWidth(0.9f), // Tamaño para que se vea correctamente
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.White,
-            containerColor = Color(0xFFfef0e1)// Transparente
-        )
+            .fillMaxWidth(0.85f)
+            .padding(vertical = 16.dp)
     )
 }
 

@@ -29,7 +29,7 @@ fun ItemList(nameItem: String="Hola"){
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.gift_banner),
+                painter = painterResource(id = R.drawable.gift2),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()

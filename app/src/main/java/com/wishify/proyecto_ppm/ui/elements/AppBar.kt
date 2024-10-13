@@ -28,32 +28,11 @@ fun AppBar(){
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceEvenly
         ){
-            Button(
-                onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(Color(0xFFb2422d)),
-                contentPadding = PaddingValues(10.dp)
-            ) {
-                Icon(imageVector = Icons.Filled.Home, contentDescription = "")
-                Text(text=  stringResource(id = R.string.home), color = Color.White)
-            }
-            Button(
-                onClick = { /*TODO*/ },
-                contentPadding = PaddingValues(10.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFFb2422d))
-            ) {
-                Icon(imageVector = Icons.Filled.AddCircle, contentDescription = "")
-                Text(text=  stringResource(id = R.string.newList), color = Color.White)
-            }
-            Button(
-                onClick = { /*TODO*/ },
-                contentPadding = PaddingValues(10.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFFb2422d))
-            ){
-                Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "")
-                Text(text=  stringResource(id = R.string.profile), color = Color.White)
-            }
+            iconButtons(icon = Icons.Filled.Home, texto = R.string.home)
+            iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.newList)
+            iconButtons(icon = Icons.Filled.AccountCircle, texto = R.string.profile)
         }
     }
 }

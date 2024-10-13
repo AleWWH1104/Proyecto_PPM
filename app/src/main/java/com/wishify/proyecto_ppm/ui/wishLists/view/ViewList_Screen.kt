@@ -19,11 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wishify.proyecto_ppm.ui.elements.AppBar
+import com.wishify.proyecto_ppm.ui.elements.iconButtons
 
 @Preview
 @Composable
 fun ViewList() {
-    val listData1 = listOf("Item1", "Item2", "Item3", "Item4", "Item5", "Item6")
     Scaffold(
         bottomBar = { AppBar() }
     ) { paddingValues ->
@@ -32,70 +32,51 @@ fun ViewList() {
                 .fillMaxSize()
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
-        ) {
+        ){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .background(Color(0xFFb2422d)),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+                    .background(Color(0xFFb2422d))
+            ){
+                IconButton(onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
+                }
                 Image(
-                    painter = painterResource(id = R.drawable.img),
-                    contentDescription = "img",
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "logo",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(120.dp)
+                        .padding(bottom = 16.dp)
                 )
-                Text(
-                    text = stringResource(id = R.string.listName),
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(8.dp)
-                )
+                Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally){
+                    Text(text = "Mi Lista", color = Color.White, style= MaterialTheme.typography.titleLarge)
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ){
+                iconButtons(icon = Icons.Filled.Share, texto = R.string.shareBtn)
+                iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.addBtn)
+                iconButtons(icon = Icons.Filled.Delete, texto = R.string.deleteBtn)
             }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-                    .weight(1f),
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(listData1) { item ->
-                    ItemList(item)
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(Color(0xFFb2422d)),
-                    contentPadding = PaddingValues(5.dp)
-                ) {
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = "")
-                    Text(text = stringResource(id = R.string.deleteBtn), color = Color.White)
-                }
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(Color(0xFFb2422d)),
-                    contentPadding = PaddingValues(5.dp)
-                ) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = "")
-                    Text(text = stringResource(id = R.string.addBtn), color = Color.White)
-                }
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(Color(0xFFb2422d)),
-                    contentPadding = PaddingValues(5.dp)
-                ) {
-                    Icon(imageVector = Icons.Filled.Share, contentDescription = "")
-                    Text(text = stringResource(id = R.string.shareBtn), color = Color.White)
+                items(6) { index ->
+                    ListCardInfo("Item ${index + 1}" )
                 }
             }
         }
