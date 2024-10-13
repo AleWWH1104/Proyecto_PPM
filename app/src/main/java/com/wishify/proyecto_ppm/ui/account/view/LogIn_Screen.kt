@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 
 @Preview //(showBackground = true)
@@ -48,7 +47,7 @@ fun LogIn() {
 
                 // Banner de regalo
                 Image(
-                    painter = painterResource(id = R.drawable.gift_banner),
+                    painter = painterResource(id = R.drawable.gift2),
                     contentDescription = "gift",
                     modifier = Modifier
                         .fillMaxWidth(1f)  // 80% del ancho disponible

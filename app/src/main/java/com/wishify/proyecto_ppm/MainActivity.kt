@@ -4,9 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.wishify.proyecto_ppm.ui.catalogs.view.*
+import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.theme.AppTheme
-import com.wishify.proyecto_ppm.ui.wishLists.view.AddList_Screen
-import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
+import com.wishify.proyecto_ppm.ui.wishLists.view.*
 
 
 class MainActivity : ComponentActivity() {
@@ -15,8 +20,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                ViewList()
+                Prueba()
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun Prueba(){
+    AppTheme {
+        AboutWish()
     }
 }

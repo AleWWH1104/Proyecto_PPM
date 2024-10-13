@@ -18,6 +18,9 @@
     <string name="event">Select type of event</string>
     <string name="createList">Create</string>
     <string name="lookItem">Look for a new wish</string>
+    <string name="typesProductos">Types of experiences/products</string>
+    <string name="describeWish">Give details to your wish</string>
+    <string name="aboutWish">About the wish</string>
     <string name="addBtn">Add</string>
     <string name="seeBtn">See</string>
     <string name="deleteBtn">Delete</string>
