@@ -11,8 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+
 import com.wishify.proyecto_ppm.ui.theme.AppTheme
+
 import com.wishify.proyecto_ppm.ui.wishLists.view.AddList_Screen
+
+import com.wishify.proyecto_ppm.ui.account.view.LogIn
+import com.wishify.proyecto_ppm.ui.account.view.SignIn
+import com.wishify.proyecto_ppm.ui.account.view.SignUp
+import com.wishify.proyecto_ppm.ui.account.view.UserAccount
 
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +28,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                AddList_Screen()
+                //LogIn()
+                //SignIn()
+                //SignUp()
+                UserAccount()
             }
         }
     }
@@ -31,6 +41,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     AppTheme {
-        AddList_Screen()
+        //LogIn()
+        //SignIn()
+        //SignUp()
+        UserAccount()
     }
 }

@@ -9,20 +9,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-//import androidx.compose.foundation.layout.FlowColumnScopeInstance.align
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.tooling.preview.Preview
-import com.wishify.proyecto_ppm.ui.elements.AppBar
-import androidx.compose.foundation.text.BasicTextField
+import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.layout.ContentScale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
@@ -30,175 +25,134 @@ import androidx.compose.ui.unit.sp
 fun SignUp() {
 
     Scaffold(
-        //bottomBar = { AppBar() }
         topBar = {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()          // Ancho completo de la pantalla
+                    .fillMaxWidth()
                     .background(Color(0xFFfef0e1))
-                    .padding(16.dp),         // Espaciado alrededor del contenido
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.Start
             ) {
                 // Botón "Back"
                 Button(
                     onClick = { /* Acción aquí */ },
                     modifier = Modifier
-                        .width(100.dp)         // Ancho fijo
-                        .height(40.dp),        // Altura fija
+                        .fillMaxWidth(0.3f)  // Usa un ancho relativo para que sea más flexible
+                        .height(40.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,  // Color de fondo del botón
-                        contentColor = Color(0xFFb2422d)  // Color del texto del botón
+                        containerColor = Color.White,
+                        contentColor = Color(0xFFb2422d)
                     )
                 ) {
                     Text("< Back")
                 }
-
             }
-
         }
-
     ) { paddingValues ->
 
-        // Contenido de la pantalla, centrado verticalmente
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFb2422d))
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween // Acomoda los elementos con espacio entre ellos
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+            // Título superior
             Column(
                 modifier = Modifier
-                    .background(Color(0xFFfef0e1))
-                    .fillMaxWidth(),
-
+                    .fillMaxWidth()
+                    .background(Color(0xFFfef0e1)),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Create an\n" + "\n" + "\n" +
-                            "Accounnt",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 60.sp
-                    ),
+                    text = "Create an\n\n\nAccount",
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 60.sp),
                     color = Color(0xFFb2422d),
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .padding(top = 8.dp),
+                    modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp)) // Espaciado superior después del botón de regresar
 
-            // Campos de texto para Username y Password
+            // Campos de texto
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Campo de Username
-                //var text by remember { mutableStateOf("") }
-                var text = "Mientras"
-
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "User Name",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 16.sp
-                    ),
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(top = 8.dp),
-
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
+                    color = Color.White
                 )
 
                 TextField(
-                    value = text,
-                    onValueChange = { text = it },
-                    //label = { Text("User Name") },
+                    value = "Mientras",
+                    onValueChange = { /* Acción aquí */ },
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color(0xFFC97763),         // Color de fondo
-                        focusedTextColor = Color.White,           // Color del texto cuando tiene foco
-                        unfocusedTextColor = Color.White,         // Color del texto cuando no tiene foco
-                        focusedIndicatorColor = Color.White,       // Color del borde cuando tiene foco
-                        unfocusedIndicatorColor = Color.White      // Color del borde cuando no tiene foco
+                        containerColor = Color(0xFFC97763),
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedIndicatorColor = Color.White,
+                        unfocusedIndicatorColor = Color.White
                     ),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                        .fillMaxWidth(0.85f) // Usa un ancho relativo
+                        .padding(vertical = 16.dp)
                 )
 
-
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "Password",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 16.sp
-                    ),
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(top = 8.dp),
-
-                    )
-
-                // Campo de Password
-                var password_mintras = "Mientras"
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
+                    color = Color.White
+                )
 
                 TextField(
-                    value = password_mintras,
-                    onValueChange = { text = it },
-                    //label = { Text("Password") },
+                    value = "Mientras",
+                    onValueChange = { /* Acción aquí */ },
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color(0xFFC97763),         // Color de fondo
-                        focusedTextColor = Color.White,           // Color del texto cuando tiene foco
-                        unfocusedTextColor = Color.White,         // Color del texto cuando no tiene foco
-                        focusedIndicatorColor = Color.White,       // Color del borde cuando tiene foco
-                        unfocusedIndicatorColor = Color.White      // Color del borde cuando no tiene foco
+                        containerColor = Color(0xFFC97763),
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedIndicatorColor = Color.White,
+                        unfocusedIndicatorColor = Color.White
                     ),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                        .fillMaxWidth(0.85f)
+                        .padding(vertical = 16.dp)
                 )
             }
 
-            // Botón de Sign Up
+            // Botón "Sign Up"
             Button(
                 onClick = { /* Acción aquí */ },
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 0.dp)
-                    .width(300.dp)        // Ancho fijo
-                    .height(50.dp),        // Altura fija
+                    .fillMaxWidth(0.7f)  // Usa un porcentaje del ancho de la pantalla
+                    .height(50.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFfef0e1),  // Color de fondo del botón
-                    contentColor = Color(0xFFb2422d)           // Color del texto o contenido del botón
+                    containerColor = Color(0xFFfef0e1),
+                    contentColor = Color(0xFFb2422d)
                 )
             ) {
                 Text("Sign Up")
             }
 
-            //parte de abajo digase nubes
+            // Imagen inferior con ajuste adecuado
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
-                    .background(Color(0xFFb2422d))
-            ){
-                Spacer(modifier = Modifier.height(20.dp))
+                    .background(Color(0xFFb2422d)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.nubes_invert),
                     contentDescription = "nubes",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.End)
-                        .padding(vertical = 0.dp)
+                    contentScale = ContentScale.FillWidth,  // Ajusta la imagen al ancho
+                    modifier = Modifier.fillMaxWidth()
                 )
-
             }
         }
     }
 }
-
-
-
