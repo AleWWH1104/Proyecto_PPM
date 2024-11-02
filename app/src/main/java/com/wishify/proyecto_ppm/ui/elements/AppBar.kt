@@ -12,10 +12,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.graphics.Color
 import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.wishify.proyecto_ppm.navigation.NavigationState
 
-@Preview(showBackground = true)
 @Composable
-fun AppBar(){
+fun AppBar(navController: NavController){
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -30,9 +31,9 @@ fun AppBar(){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ){
-            iconButtons(icon = Icons.Filled.Home, texto = R.string.home)
-            iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.newList)
-            iconButtons(icon = Icons.Filled.AccountCircle, texto = R.string.profile)
+            iconButtons(icon = Icons.Filled.Home, texto = R.string.home, onClick = {navController.navigate(NavigationState.Home.route)})
+            iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.newList, onClick = {navController.navigate(NavigationState.NewList.route)})
+            iconButtons(icon = Icons.Filled.AccountCircle, texto = R.string.profile, onClick = {navController.navigate(NavigationState.Profile.route)})
         }
     }
 }

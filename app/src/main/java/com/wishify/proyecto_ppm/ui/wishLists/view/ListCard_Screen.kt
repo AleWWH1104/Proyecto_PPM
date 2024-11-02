@@ -14,11 +14,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
+import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Composable
-fun ListCard(nameList: String, event: String) {
+fun ListCard(nameList: String, event: String, navController: NavController) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -51,13 +53,14 @@ fun ListCard(nameList: String, event: String) {
                     style = MaterialTheme.typography.titleSmall,
                 )
             }
-            smallButtons(texto = R.string.seeBtn)
+            //Modificar el INT para las listas correctas
+            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.MyList.route)})
         }
     }
 }
 
 @Composable
-fun ListCardInfo(nameItem: String){
+fun ListCardInfo(nameItem: String, navController: NavController){
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -90,8 +93,9 @@ fun ListCardInfo(nameItem: String){
             IconButton(onClick = {}) {
                 Icon(imageVector = Icons.Filled.Delete, contentDescription = "iTrash", tint = Color(0xFFb2422d))
             }
-            IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Filled.Info, contentDescription = "iTrash", tint = Color(0xFFb2422d))
+            //Modificar el INT tambien para ver la descripcion asignada
+            IconButton(onClick = {navController.navigate(NavigationState.InfoItem.route)}) {
+                Icon(imageVector = Icons.Filled.Info, contentDescription = "iInfo", tint = Color(0xFFb2422d))
             }
         }
         

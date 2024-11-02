@@ -18,11 +18,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.R
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Banner(@StringRes texto: Int, imagen: Painter) {
+    val navController = rememberNavController()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,13 +37,29 @@ fun Banner(@StringRes texto: Int, imagen: Painter) {
                 .fillMaxWidth()
                 .weight(0.5f)
         ) {
-            IconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.White
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+            ){
+                TopAppBar(
+                    title = { },
+                    navigationIcon = {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "atras",
+                                tint = Color.White
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color(0xFFb2422d)
+                    ),
+                    modifier = Modifier.fillMaxSize()
                 )
             }
+
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "logo",
@@ -63,7 +82,7 @@ fun Banner(@StringRes texto: Int, imagen: Painter) {
                 color = Color.White,
                 modifier = Modifier
                     .padding(start = 16.dp)
-                    .weight(0.5f),
+                    .weight(0.6f),
             )
             Image(
                 painter = imagen,
@@ -71,7 +90,7 @@ fun Banner(@StringRes texto: Int, imagen: Painter) {
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(0.5f)
+                    .weight(0.4f)
             )
         }
     }

@@ -19,14 +19,16 @@ import androidx.compose.ui.res.stringResource
 import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 
 @Preview(showBackground = true)
 @Composable
 fun UserAccount(){
+    val navController = rememberNavController()
     Scaffold(
-        bottomBar = { AppBar() }
+        bottomBar = { AppBar(navController) }
     ){ paddingValues ->
         Column(
             modifier = Modifier

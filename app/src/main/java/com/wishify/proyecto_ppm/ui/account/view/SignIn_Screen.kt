@@ -1,56 +1,50 @@
 package com.wishify.proyecto_ppm.ui.account.view
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
+import com.wishify.proyecto_ppm.navigation.NavigationState
+import com.wishify.proyecto_ppm.ui.elements.LargeButtons
+import com.wishify.proyecto_ppm.ui.elements.smallTexField
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun SignIn() {
-
+fun SignInScreen(navController: NavController) {
     Scaffold(
         topBar = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFfef0e1))
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.Start
-            ) {
-                // Botón "Back" sin ancho fijo
-                Button(
-                    onClick = { /* Acción aquí */ },
-                    modifier = Modifier
-                        .fillMaxWidth(0.3f) // Ocupa el 30% del ancho
-                        .height(40.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color(0xFFb2422d)
-                    )
-                ) {
-                    Text("< Back")
-                }
-            }
+            TopAppBar(
+                title = { },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "atras",
+                            tint = Color(0xFFb2422d)
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFFfef0e1)
+                )
+            )
         }
-
     ) { paddingValues ->
-
-        // Contenido principal, centrado verticalmente
+        // Contenido principal
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -60,106 +54,71 @@ fun SignIn() {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             // Sección superior con el texto "Welcome Back"
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFfef0e1)),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .background(Color(0xFFfef0e1))
+                    .padding(vertical = 40.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Welcome\n\nBack!",
-                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 60.sp),
+                    text = stringResource(id = R.string.welcome),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 48.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
                     color = Color(0xFFb2422d),
-                    modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
 
             // Campos de texto
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "User Name",
+                    text = "Username",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-
-                TextField(
-                    value = "Mientras",
-                    onValueChange = { /* Acción aquí */ },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color(0xFFC97763),
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedIndicatorColor = Color.White,
-                        unfocusedIndicatorColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth(0.85f) // 85% del ancho
-                        .padding(vertical = 16.dp)
-                )
+                smallTexField()  // Campo de nombre de usuario
 
                 Text(
                     text = "Password",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-
-                TextField(
-                    value = "Mientras",
-                    onValueChange = { /* Acción aquí */ },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color(0xFFC97763),
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedIndicatorColor = Color.White,
-                        unfocusedIndicatorColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth(0.85f) // 85% del ancho
-                        .padding(vertical = 16.dp)
-                )
+                smallTexField()  // Campo de contraseña
             }
 
-            // Botón "Sign In" sin ancho fijo
-            Button(
-                onClick = { /* Acción aquí */ },
-                modifier = Modifier
-                    .fillMaxWidth(0.7f) // Ocupa el 70% del ancho
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFfef0e1),
-                    contentColor = Color(0xFFb2422d)
-                )
-            ) {
-                Text("Sign In")
-            }
+            // Botón de inicio de sesión
+            LargeButtons(
+                texto = R.string.signIn,
+                onClick = { navController.navigate(NavigationState.Home.route) },
+                buttonColor = Color(0xFFfef0e1),
+                textColor = Color(0xFFb2422d)
+            )
 
             // Imagen inferior
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
-                    .background(Color(0xFFb2422d))
+                    .background(Color(0xFFb2422d)),
+                contentAlignment = Alignment.BottomCenter
             ) {
-                Spacer(modifier = Modifier.height(20.dp))
                 Image(
                     painter = painterResource(id = R.drawable.nubes_invert),
                     contentDescription = "nubes",
-                    contentScale = ContentScale.FillBounds,  // Ajusta la imagen al ancho y alto del contenedor
+                    contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight()  // Asegura que la imagen llene el contenedor en ambas dimensiones
-                        .align(Alignment.CenterHorizontally)
+                        .height(100.dp)
                 )
             }
-
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.wishify.proyecto_ppm.ui.account.view
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,42 +12,41 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wishify.proyecto_ppm.R
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.navigation.NavController
+import com.wishify.proyecto_ppm.navigation.NavigationState
+import com.wishify.proyecto_ppm.ui.elements.LargeButtons
+import com.wishify.proyecto_ppm.ui.elements.smallTexField
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
 @Composable
-fun SignUp() {
-
+fun SignUpScreen(navController: NavController) {
     Scaffold(
         topBar = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFfef0e1))
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.Start
-            ) {
-                // Botón "Back"
-                Button(
-                    onClick = { /* Acción aquí */ },
-                    modifier = Modifier
-                        .fillMaxWidth(0.3f)  // Usa un ancho relativo para que sea más flexible
-                        .height(40.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color(0xFFb2422d)
-                    )
-                ) {
-                    Text("< Back")
-                }
-            }
+            TopAppBar(
+                title = { },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "atras",
+                            tint = Color(0xFFb2422d)
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFFfef0e1)
+                )
+            )
         }
     ) { paddingValues ->
-
+        // Contenido principal
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,99 +55,70 @@ fun SignUp() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Título superior
-            Column(
+            // Sección superior con el texto "Welcome Back"
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFfef0e1)),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .background(Color(0xFFfef0e1))
+                    .padding(vertical = 60.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Create an\n\n\nAccount",
-                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 60.sp),
+                    text = stringResource(id = R.string.createAccount),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
                     color = Color(0xFFb2422d),
-                    modifier = Modifier.padding(vertical = 16.dp)
                 )
             }
 
             // Campos de texto
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "User Name",
+                    text = "Username",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-
-                TextField(
-                    value = "Mientras",
-                    onValueChange = { /* Acción aquí */ },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color(0xFFC97763),
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedIndicatorColor = Color.White,
-                        unfocusedIndicatorColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth(0.85f) // Usa un ancho relativo
-                        .padding(vertical = 16.dp)
-                )
+                smallTexField()  // Campo de nombre de usuario
 
                 Text(
                     text = "Password",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-
-                TextField(
-                    value = "Mientras",
-                    onValueChange = { /* Acción aquí */ },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color(0xFFC97763),
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedIndicatorColor = Color.White,
-                        unfocusedIndicatorColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth(0.85f)
-                        .padding(vertical = 16.dp)
-                )
+                smallTexField()  // Campo de contraseña
             }
 
-            // Botón "Sign Up"
-            Button(
-                onClick = { /* Acción aquí */ },
-                modifier = Modifier
-                    .fillMaxWidth(0.7f)  // Usa un porcentaje del ancho de la pantalla
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFfef0e1),
-                    contentColor = Color(0xFFb2422d)
-                )
-            ) {
-                Text("Sign Up")
-            }
+            // Botón de inicio de sesión
+            LargeButtons(
+                texto = R.string.signUp,
+                onClick = { navController.navigate(NavigationState.Begin.route) },
+                buttonColor = Color(0xFFfef0e1),
+                textColor = Color(0xFFb2422d)
+            )
 
-            // Imagen inferior con ajuste adecuado
-            Column(
+            // Imagen inferior
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
                     .background(Color(0xFFb2422d)),
-                horizontalAlignment = Alignment.CenterHorizontally
+                contentAlignment = Alignment.BottomCenter
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.nubes_invert),
                     contentDescription = "nubes",
-                    contentScale = ContentScale.FillWidth,  // Ajusta la imagen al ancho
-                    modifier = Modifier.fillMaxWidth()
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
                 )
             }
         }

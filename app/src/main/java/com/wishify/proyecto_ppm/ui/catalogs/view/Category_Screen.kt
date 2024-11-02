@@ -12,14 +12,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
 
 @Composable
 fun Categories(){
+    val navController = rememberNavController()
     Scaffold(
-        bottomBar = { AppBar() }
+        bottomBar = { AppBar(navController) }
     ){paddingValues ->
         Column(
             modifier = Modifier

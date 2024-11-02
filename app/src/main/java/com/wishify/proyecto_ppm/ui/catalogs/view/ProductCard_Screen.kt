@@ -44,7 +44,7 @@ fun ProductCard(){
                 modifier = Modifier
                     .weight(0.8f)
             )
-            smallButtons(texto = R.string.seeBtn)
+            smallButtons(texto = R.string.seeBtn, {})
         }
     }
 }

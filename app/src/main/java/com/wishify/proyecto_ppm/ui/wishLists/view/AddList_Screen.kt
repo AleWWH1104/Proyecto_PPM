@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import androidx.compose.ui.Alignment
+import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.ui.catalogs.view.SelectEvent
 import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
@@ -22,8 +23,9 @@ import com.wishify.proyecto_ppm.ui.elements.smallTexField
 @Preview
 @Composable
 fun AddList(){
+    val navController = rememberNavController()
     Scaffold(
-        bottomBar = { AppBar() }
+        bottomBar = { AppBar(navController) }
     ){paddingValues ->
         Column(
             modifier = Modifier
@@ -55,7 +57,7 @@ fun AddList(){
                     }
                 }
                 Spacer(modifier = Modifier.padding(8.dp))
-                LargeButtons(texto = R.string.createList)
+//                LargeButtons(texto = R.string.createList, {})
 
             }
 

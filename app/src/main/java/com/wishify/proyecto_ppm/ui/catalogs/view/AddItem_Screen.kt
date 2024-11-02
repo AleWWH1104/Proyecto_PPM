@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
@@ -24,8 +25,9 @@ import com.wishify.proyecto_ppm.ui.elements.LargeTextField
 @Preview
 @Composable
 fun AddItem() {
+    val navController = rememberNavController()
     Scaffold(
-        bottomBar = { AppBar() }
+        bottomBar = { AppBar(navController) }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -75,7 +77,7 @@ fun AddItem() {
                 )
                 LargeTextField()
                 Spacer(modifier = Modifier.padding(8.dp))
-                LargeButtons(texto = R.string.addBtn)
+//                LargeButtons(texto = R.string.addBtn, {}, )
             }
         }
     }

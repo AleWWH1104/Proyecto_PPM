@@ -13,13 +13,14 @@ import androidx.compose.ui.res.painterResource
 import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-
-@Preview //(showBackground = true)
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.wishify.proyecto_ppm.navigation.NavigationState
+import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 @Composable
-fun Beginning() {
-
+fun Beginning(navController: NavController) {
     Scaffold(
-        //bottomBar = { AppBar() }
+
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -40,18 +41,17 @@ fun Beginning() {
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "logo",
                     modifier = Modifier
-                        .fillMaxWidth(1f)  // 60% del ancho disponible
+                        .fillMaxWidth()
                         .padding(vertical = 16.dp)
-                        //.aspectRatio(1f)  // Mantiene proporción cuadrada
                 )
 
                 // Banner de regalo
                 Image(
-                    painter = painterResource(id = R.drawable.gift2),
+                    painter = painterResource(id = R.drawable.gift1),
                     contentDescription = "gift",
                     modifier = Modifier
-                        .fillMaxWidth(1f)  // 80% del ancho disponible
-                        .aspectRatio(0.5f)  // Ajusta la relación de aspecto 2:1
+                        .fillMaxWidth()
+                        .aspectRatio(0.5f)
                         .padding(vertical = 8.dp)
                 )
             }
@@ -60,38 +60,25 @@ fun Beginning() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)  // Espacio proporcional para los botones
+                    .weight(1f)
+                    .padding(16.dp)
                     .background(Color(0xFFfef0e1)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(
-                    onClick = { /* Acción aquí */ },
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)  // 70% del ancho disponible
-                        .padding(vertical = 16.dp)
-                        .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFb2422d),
-                        contentColor = Color.White
-                    )
-                ) {
-                    Text("Sign In")
-                }
-
-                Button(
-                    onClick = { /* Acción aquí */ },
-                    border = BorderStroke(2.dp, Color(0xFFb2422d)),
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)  // 70% del ancho disponible
-                        .padding(vertical = 8.dp)
-                        .height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color(0xFFb2422d)
-                    )
-                ) {
-                    Text("Sign Up")
-                }
+                Spacer(modifier = Modifier.padding(16.dp))
+                LargeButtons(
+                    texto = R.string.signIn,
+                    onClick = { navController.navigate(NavigationState.SignIn.route) },
+                    buttonColor = Color(0xFFb2422d),
+                    textColor = Color.White
+                )
+                Spacer(modifier = Modifier.padding(16.dp))
+                LargeButtons(
+                    texto = R.string.signUp,
+                    onClick = { navController.navigate(NavigationState.SignUp.route)},
+                    buttonColor = Color.White,
+                    textColor = Color(0xFFb2422d)
+                )
             }
 
             // Parte inferior (nubes)

@@ -13,9 +13,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun smallButtons(@StringRes texto: Int){
+fun smallButtons(@StringRes texto: Int, onClick: () -> Unit){
     Button(
-        onClick = {},
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(Color(0xFFb2422d)),
         contentPadding = PaddingValues(5.dp),
     ){
@@ -24,9 +24,9 @@ fun smallButtons(@StringRes texto: Int){
 }
 
 @Composable
-fun iconButtons(icon: ImageVector, @StringRes texto: Int){
+fun iconButtons(icon: ImageVector, @StringRes texto: Int, onClick: () -> Unit){
     Button(
-        onClick = { },
+        onClick = onClick,
         contentPadding = PaddingValues(10.dp),
         colors = ButtonDefaults.buttonColors(Color(0xFFb2422d))
     ) {
@@ -36,16 +36,16 @@ fun iconButtons(icon: ImageVector, @StringRes texto: Int){
 }
 
 @Composable
-fun LargeButtons(@StringRes texto: Int){
+fun LargeButtons(@StringRes texto: Int, onClick: () -> Unit, buttonColor: Color, textColor: Color){
     Button(
-        onClick = {  },
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth(0.7f)
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFFb2422d),
+            containerColor = buttonColor,
         )
     ) {
-        Text(text= stringResource(id = texto), color = Color.White)
+        Text(text= stringResource(id = texto), color = textColor)
     }
 }

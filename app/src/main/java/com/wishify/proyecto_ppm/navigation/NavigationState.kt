@@ -6,8 +6,18 @@ sealed class NavigationState(val route: String)  {
     data object SignIn: NavigationState("signIn")
     data object SignUp: NavigationState("signUp")
     data object Home: NavigationState("home")
-    data object NewList: NavigationState("newList")
     data object MyList: NavigationState("myList")
+    data object InfoItem: NavigationState("lookup")
+
+//    data object MyList: NavigationState("myList/{listId}"){
+//        fun createRoute(listId: Int) = "myList/$listId"
+//    }
+//    data object InfoItem: NavigationState("lookup/{idItem}"){
+//        fun createRoute(idItem: Int) = "lookup/$idItem"
+//    }
+    data object NewList: NavigationState("newList")
+
+    //Retrofit API
     data object AddItem: NavigationState("addItem")
     data object Categories: NavigationState("categories")
     data object CategoriesFilter: NavigationState("categories/{products}")  {
@@ -15,8 +25,5 @@ sealed class NavigationState(val route: String)  {
     }
     data object addDetail: NavigationState("addDetail/{id}"){
         fun createRoute(id: String) = "addDetail/$id"
-    }
-    data object Info: NavigationState("lookup/{id}"){
-        fun createRoute(id: String) = "lookup/$id"
     }
 }
