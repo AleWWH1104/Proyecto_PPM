@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview //(showBackground = true)
 @Composable
-fun LogIn() {
+fun Beginning() {
 
     Scaffold(
         //bottomBar = { AppBar() }

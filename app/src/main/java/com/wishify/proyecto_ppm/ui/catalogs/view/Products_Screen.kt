@@ -18,9 +18,9 @@ import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
 
-@Preview
+
 @Composable
-fun ProductsCategory(title: String ="Belleza" ){
+fun ProductsCategory(category: String ){
     Scaffold(
         bottomBar = { AppBar() }
     ){paddingValues ->
@@ -36,7 +36,7 @@ fun ProductsCategory(title: String ="Belleza" ){
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ){
-                Text(text= title, modifier = Modifier.padding(top= 16.dp), style= MaterialTheme.typography.titleMedium)
+                Text(text= category, modifier = Modifier.padding(top= 16.dp), style= MaterialTheme.typography.titleMedium)
             }
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
