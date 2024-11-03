@@ -12,11 +12,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.R
+import com.wishify.proyecto_ppm.navigation.NavigationState
+import com.wishify.proyecto_ppm.ui.elements.LargeButtons
+import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Preview
 @Composable
 fun ItemList(nameItem: String="Hola"){
+    val navController = rememberNavController()
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -52,20 +57,18 @@ fun ItemList(nameItem: String="Hola"){
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ){
-                    Button(
-                        onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(Color(0xFFb2422d)),
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Text(text= stringResource(id = R.string.deleteBtn), color=Color.White)
-                    }
-                    Button(
-                        onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.buttonColors(Color(0xFFb2422d)),
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Text(text= stringResource(id = R.string.reserBtn), color=Color.White)
-                    }
+
+                    smallButtons(
+                        texto = R.string.deleteBtn,
+                        // creo que esta no es la ruta que va al final, pero para mientras
+                        onClick = { navController.navigate(NavigationState.Categories.route)}
+
+                    )
+                    smallButtons(
+                        texto = R.string.reserBtn,
+                        // creo que esta no es la ruta que va al final, pero para mientras
+                        onClick = { navController.navigate(NavigationState.Categories.route)}
+                    )
                 }
             }
         }

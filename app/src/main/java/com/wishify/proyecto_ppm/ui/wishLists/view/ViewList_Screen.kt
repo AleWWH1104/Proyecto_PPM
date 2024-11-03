@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.iconButtons
 
@@ -65,9 +66,9 @@ fun ViewList() {
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ){
-                iconButtons(icon = Icons.Filled.Share, texto = R.string.shareBtn, {})
-                iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.addBtn, {})
-                iconButtons(icon = Icons.Filled.Delete, texto = R.string.deleteBtn, {})
+                iconButtons(icon = Icons.Filled.Share, texto = R.string.shareBtn, {}) // accion pendiente
+                iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.addBtn, onClick = { navController.navigate(NavigationState.AddItem.route)})
+                iconButtons(icon = Icons.Filled.Delete, texto = R.string.deleteBtn, {}) // accion pendiente
             }
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
