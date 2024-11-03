@@ -20,8 +20,10 @@ import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
+import com.wishify.proyecto_ppm.navigation.NavigationState
 
 import com.wishify.proyecto_ppm.ui.elements.AppBar
+import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 
 @Preview(showBackground = true)
 @Composable
@@ -79,39 +81,20 @@ fun UserAccount(){
 
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = { /* Acción aquí */ },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(vertical = 32.dp)
-                        .width(300.dp)        // Ancho fijo
-                        .height(50.dp),        // Altura fija
-
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFb2422d),  // Color de fondo del botón
-                        contentColor = Color.White           // Color del texto o contenido del botón
-                    )
-                ) {
-                    Text("Sign Out")
-                }
-
-                Button(
-                    onClick = { /* Acción aquí */ },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(vertical = 8.dp)
-                        .width(300.dp)        // Ancho fijo
-                        .height(50.dp),        // Altura fija
-
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFb2422d),  // Color de fondo del botón
-                        contentColor = Color.White           // Color del texto o contenido del botón
-                    )
-                ) {
-                    Text("Delete Account")
-                }
-
-
+                // Botón de inicio de sesión
+                LargeButtons(
+                    texto = R.string.signOut,
+                    onClick = { navController.navigate(NavigationState.Begin.route) },
+                    buttonColor = Color(0xFFb2422d),
+                    textColor = Color(0xFFfef0e1)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                LargeButtons(
+                    texto = R.string.DeleteAccount,
+                    onClick = { navController.navigate(NavigationState.Begin.route) },
+                    buttonColor = Color(0xFFb2422d),
+                    textColor = Color(0xFFfef0e1)
+                )
 
             }
         }

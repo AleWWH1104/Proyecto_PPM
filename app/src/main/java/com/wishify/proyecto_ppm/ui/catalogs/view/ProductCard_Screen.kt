@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
+@Preview
 @Composable
 fun ProductCard(){
     Card(
