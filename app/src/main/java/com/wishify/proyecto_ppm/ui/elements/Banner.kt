@@ -11,21 +11,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Banner(@StringRes texto: Int, imagen: Painter) {
-    val navController = rememberNavController()
+fun Banner(@StringRes texto: Int, imagen: Painter, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +37,7 @@ fun Banner(@StringRes texto: Int, imagen: Painter) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(30.dp)
+                    .height(40.dp)
             ){
                 TopAppBar(
                     title = { },

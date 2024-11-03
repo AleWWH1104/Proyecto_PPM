@@ -1,7 +1,6 @@
 package com.wishify.proyecto_ppm.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.wishify.proyecto_ppm.ui.account.view.*
 import com.wishify.proyecto_ppm.ui.catalogs.view.AddItem
@@ -13,7 +12,8 @@ import com.wishify.proyecto_ppm.ui.wishLists.view.MainLists
 import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
 
 @Composable
-fun AppNavigation(navController: NavHostController){
+fun AppNavigation(){
+    val navController = rememberNavController()
     NavHost(navController = navController, startDestination = NavigationState.Home.route ) {
         composable(route = NavigationState.Home.route){
             Beginning(navController)
@@ -31,7 +31,7 @@ fun AppNavigation(navController: NavHostController){
             MainLists(navController)
         }
         composable(route = NavigationState.MyList.route){
-            ViewList()
+            ViewList(navController)
         }
         composable(route = NavigationState.InfoItem.route){
             AboutWish(navController)
@@ -45,7 +45,7 @@ fun AppNavigation(navController: NavHostController){
 //            AboutWish()
 //        }
         composable(route = NavigationState.NewList.route){
-            AddList()
+            AddList(navController)
         }
         composable(route = NavigationState.Categories.route){
             Categories(navController)
@@ -54,7 +54,7 @@ fun AppNavigation(navController: NavHostController){
             ProductsByCategory(category = "Category", navController = navController )
         }
         composable(route = NavigationState.addDetail.route){
-            AddItem()
+            AddItem(navController)
         }
 //        composable(route = NavigationState.Categories.route){
 //            Categories()

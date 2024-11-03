@@ -26,7 +26,7 @@ fun MainLists(navController: NavController){
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ){
-            Banner(texto = R.string.slogan, painterResource(id = R.drawable.gift2))
+            Banner(texto = R.string.slogan, painterResource(id = R.drawable.gift2), navController)
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier

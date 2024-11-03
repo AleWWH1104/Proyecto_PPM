@@ -17,7 +17,6 @@ import com.wishify.proyecto_ppm.navigation.NavigationState
 
 @Composable
 fun SelectCategories(text: String, navController: NavController){
-    val navController = rememberNavController()
     Box(
         modifier = Modifier
             .background(Color(0xFFb2422d))

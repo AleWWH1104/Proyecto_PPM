@@ -18,15 +18,14 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.iconButtons
 
-@Preview
 @Composable
-fun ViewList() {
-    val navController = rememberNavController()
+fun ViewList(navController: NavController) {
     Scaffold(
         bottomBar = { AppBar(navController) }
     ) { paddingValues ->

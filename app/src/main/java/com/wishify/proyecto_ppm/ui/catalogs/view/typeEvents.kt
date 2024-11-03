@@ -28,9 +28,3 @@ fun SelectEvent(text: String){
         )
     }
 }
-
-@Preview
-@Composable
-fun SelectEvent() {
-    SelectEvent(text = "Evento de prueba")
-}

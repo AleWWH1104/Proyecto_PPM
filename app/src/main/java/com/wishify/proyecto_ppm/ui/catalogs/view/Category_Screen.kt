@@ -30,7 +30,7 @@ fun Categories(navController: NavController) {
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ) {
-            Banner(texto = R.string.lookItem, painterResource(id = R.drawable.gift2))
+            Banner(texto = R.string.lookItem, painterResource(id = R.drawable.gift2), navController)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -14,16 +14,15 @@ import androidx.compose.ui.unit.dp
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import androidx.compose.ui.Alignment
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.ui.catalogs.view.SelectEvent
 import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
 
-@Preview
 @Composable
-fun AddList(){
-    val navController = rememberNavController()
+fun AddList(navController: NavController){
     Scaffold(
         bottomBar = { AppBar(navController) }
     ){paddingValues ->
@@ -33,7 +32,7 @@ fun AddList(){
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ){
-            Banner(texto = R.string.WishList, painterResource(id = R.drawable.gift1))
+            Banner(texto = R.string.WishList, painterResource(id = R.drawable.gift1), navController)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

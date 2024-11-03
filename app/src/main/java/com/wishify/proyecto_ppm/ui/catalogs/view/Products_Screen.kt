@@ -32,7 +32,7 @@ fun ProductsByCategory(category: String, navController: NavController){
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ){
-            Banner(texto = R.string.lookItem, painterResource(id = R.drawable.gift1))
+            Banner(texto = R.string.lookItem, painterResource(id = R.drawable.gift1), navController)
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
