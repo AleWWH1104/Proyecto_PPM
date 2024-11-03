@@ -51,3 +51,9 @@ fun ProductsCategory(category: String ){
         }
     }
 }
+
+@Preview
+@Composable
+fun PreviewProductsCategory() {
+    ProductsCategory(category = "Categoría de prueba")
+}

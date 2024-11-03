@@ -10,12 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.clickable
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun SelectProduct(text: String){
+fun SelectProduct(text: String, navController: NavController){
+    val navController = rememberNavController()
     Box(
         modifier = Modifier
             .background(Color(0xFFb2422d))
+            .clickable { navController.navigate("NavigationState.CategoriesFilter.route") }
     ) {
         Text(
             text = text,
