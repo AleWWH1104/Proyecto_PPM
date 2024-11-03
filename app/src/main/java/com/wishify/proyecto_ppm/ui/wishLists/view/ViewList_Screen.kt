@@ -67,7 +67,7 @@ fun ViewList() {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ){
                 iconButtons(icon = Icons.Filled.Share, texto = R.string.shareBtn, {}) // accion pendiente
-                iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.addBtn, onClick = { navController.navigate(NavigationState.AddItem.route)})
+                iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.addBtn, onClick = { navController.navigate(NavigationState.Categories.route)})
                 iconButtons(icon = Icons.Filled.Delete, texto = R.string.deleteBtn, {}) // accion pendiente
             }
             LazyVerticalGrid(

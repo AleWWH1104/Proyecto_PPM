@@ -11,18 +11,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 
-@Preview
+
 @Composable
-fun AboutWish(){
-    val navController = rememberNavController()
+fun AboutWish(navController: NavController){
     Scaffold(
         bottomBar = { AppBar(navController) }
     ) { paddingValues ->
@@ -62,7 +60,7 @@ fun AboutWish(){
                 Text(text = "Descripcion", style = MaterialTheme.typography.titleMedium)
                 Text(text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.")
                 Spacer(modifier = Modifier.padding(16.dp))
-//                LargeButtons(texto = R.string.reserBtn, {})
+                LargeButtons(texto = R.string.reserBtn, onClick = { }, buttonColor = Color(0xFFb2422d), textColor =Color(0xFFfef0e1) )
             }
         }
     }

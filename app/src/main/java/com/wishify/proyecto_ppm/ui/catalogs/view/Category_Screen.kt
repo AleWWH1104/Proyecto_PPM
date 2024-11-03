@@ -13,15 +13,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
 
-@Preview
 @Composable
-fun Categories() {
-    val navController = rememberNavController()
+fun Categories(navController: NavController) {
     Scaffold(
         bottomBar = { AppBar(navController) }
     ) { paddingValues ->
@@ -48,8 +47,8 @@ fun Categories() {
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(12) { index ->
-                        SelectProduct(
-                            text = "Product ${index + 1}",
+                        SelectCategories(
+                            text = "Category ${index + 1}",
                             navController = navController
                         )
                     }

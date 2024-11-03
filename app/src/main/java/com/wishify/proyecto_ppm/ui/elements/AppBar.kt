@@ -31,7 +31,7 @@ fun AppBar(navController: NavController){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ){
-            iconButtons(icon = Icons.Filled.Home, texto = R.string.home, onClick = {navController.navigate(NavigationState.Home.route)})
+            iconButtons(icon = Icons.Filled.Home, texto = R.string.home, onClick = {navController.navigate(NavigationState.AllLists.route)})
             iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.newList, onClick = {navController.navigate(NavigationState.NewList.route)})
             iconButtons(icon = Icons.Filled.AccountCircle, texto = R.string.profile, onClick = {navController.navigate(NavigationState.Profile.route)})
         }

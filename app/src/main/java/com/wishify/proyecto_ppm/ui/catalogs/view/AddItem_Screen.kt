@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.R
+import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
@@ -77,7 +78,7 @@ fun AddItem() {
                 )
                 LargeTextField()
                 Spacer(modifier = Modifier.padding(8.dp))
-//                LargeButtons(texto = R.string.addBtn, {}, )
+                LargeButtons(texto = R.string.addBtn, onClick = { navController.navigate(NavigationState.MyList.route) }, buttonColor = Color(0xFFb2422d), textColor =Color(0xFFfef0e1) )
             }
         }
     }

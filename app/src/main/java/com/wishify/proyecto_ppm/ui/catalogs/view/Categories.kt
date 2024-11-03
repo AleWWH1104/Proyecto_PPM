@@ -13,14 +13,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.wishify.proyecto_ppm.navigation.NavigationState
 
 @Composable
-fun SelectProduct(text: String, navController: NavController){
+fun SelectCategories(text: String, navController: NavController){
     val navController = rememberNavController()
     Box(
         modifier = Modifier
             .background(Color(0xFFb2422d))
-            .clickable { navController.navigate("NavigationState.CategoriesFilter.route") }
+            .clickable { navController.navigate(NavigationState.CategoriesFilter.route) }
     ) {
         Text(
             text = text,

@@ -99,7 +99,7 @@ fun SignUpScreen(navController: NavController) {
             // Botón de inicio de sesión
             LargeButtons(
                 texto = R.string.signUp,
-                onClick = { navController.navigate(NavigationState.Begin.route) },
+                onClick = { navController.navigate(NavigationState.Home.route) },
                 buttonColor = Color(0xFFfef0e1),
                 textColor = Color(0xFFb2422d)
             )

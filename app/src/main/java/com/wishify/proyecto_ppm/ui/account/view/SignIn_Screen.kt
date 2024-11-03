@@ -97,7 +97,7 @@ fun SignInScreen(navController: NavController) {
             // Botón de inicio de sesión
             LargeButtons(
                 texto = R.string.signIn,
-                onClick = { navController.navigate(NavigationState.Home.route) },
+                onClick = { navController.navigate(NavigationState.AllLists.route) },
                 buttonColor = Color(0xFFfef0e1),
                 textColor = Color(0xFFb2422d)
             )

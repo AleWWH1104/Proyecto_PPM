@@ -61,13 +61,13 @@ fun ItemList(nameItem: String="Hola"){
                     smallButtons(
                         texto = R.string.deleteBtn,
                         // creo que esta no es la ruta que va al final, pero para mientras
-                        onClick = { navController.navigate(NavigationState.Categories.route)}
+                        onClick = { }
 
                     )
                     smallButtons(
                         texto = R.string.reserBtn,
                         // creo que esta no es la ruta que va al final, pero para mientras
-                        onClick = { navController.navigate(NavigationState.Categories.route)}
+                        onClick = { }
                     )
                 }
             }

@@ -19,16 +19,15 @@ import androidx.compose.ui.res.stringResource
 import com.wishify.proyecto_ppm.R
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.navigation.NavigationState
 
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 
-@Preview(showBackground = true)
 @Composable
-fun UserAccount(){
-    val navController = rememberNavController()
+fun UserAccount(navController: NavController){
     Scaffold(
         bottomBar = { AppBar(navController) }
     ){ paddingValues ->
@@ -84,14 +83,14 @@ fun UserAccount(){
                 // Botón de inicio de sesión
                 LargeButtons(
                     texto = R.string.signOut,
-                    onClick = { navController.navigate(NavigationState.Begin.route) },
+                    onClick = { navController.navigate(NavigationState.Home.route) },
                     buttonColor = Color(0xFFb2422d),
                     textColor = Color(0xFFfef0e1)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 LargeButtons(
                     texto = R.string.DeleteAccount,
-                    onClick = { navController.navigate(NavigationState.Begin.route) },
+                    onClick = { navController.navigate(NavigationState.Home.route) },
                     buttonColor = Color(0xFFb2422d),
                     textColor = Color(0xFFfef0e1)
                 )
