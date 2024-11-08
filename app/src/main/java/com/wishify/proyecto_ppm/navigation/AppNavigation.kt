@@ -1,7 +1,11 @@
 package com.wishify.proyecto_ppm.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.wishify.proyecto_ppm.ui.account.view.*
 import com.wishify.proyecto_ppm.ui.catalogs.view.AddItem
 import com.wishify.proyecto_ppm.ui.catalogs.view.Categories
@@ -12,8 +16,8 @@ import com.wishify.proyecto_ppm.ui.wishLists.view.MainLists
 import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
 
 @Composable
-fun AppNavigation(){
-    val navController = rememberNavController()
+fun AppNavigation(navController: NavHostController){
+
     NavHost(navController = navController, startDestination = NavigationState.Home.route ) {
         composable(route = NavigationState.Home.route){
             HomeScreen(navController)
@@ -50,24 +54,20 @@ fun AppNavigation(){
         composable(route = NavigationState.Categories.route){
             Categories(navController)
         }
-        composable(route = NavigationState.CategoriesFilter.route){
-            ProductsByCategory(category = "Category", navController = navController )
+        composable(route = NavigationState.CategoriesFilter.route,
+            arguments = listOf(
+                navArgument("category") { type = NavType.IntType }
+            )
+        ){  backStackEntry ->
+            val arguments = requireNotNull(backStackEntry.arguments)
+            val categoryID = arguments.getInt("category")
+            ProductsByCategory(categoryID = categoryID, navController = navController)
         }
+
         composable(route = NavigationState.addDetail.route){
             AddItem(navController)
         }
-//        composable(route = NavigationState.Categories.route){
-//            Categories()
-//        }
-//        composable(NavigationState.CategoriesFilter.route,
-//            arguments = listOf(
-//                navArgument("category") { type = NavType.StringType }
-//            )
-//        ) { backStackEntry ->
-//            val arguments = requireNotNull(backStackEntry.arguments)
-//            val categoryName = arguments.getString("category") ?: ""
-//            ProductsCategory(category = categoryName)
-//        }
+
 
 
     }

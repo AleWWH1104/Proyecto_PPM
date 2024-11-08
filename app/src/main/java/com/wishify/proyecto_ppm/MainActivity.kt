@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 Surface {
-                    AppNavigation()
+                    AppNavigation(navController = rememberNavController())
                 }
             }
         }

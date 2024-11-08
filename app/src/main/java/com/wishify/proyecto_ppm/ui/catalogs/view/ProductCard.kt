@@ -12,12 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
+import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Composable
-fun ProductCard(navController: NavController){
+fun ProductCard(navController: NavController, product: WishProduct){
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,14 +35,14 @@ fun ProductCard(navController: NavController){
             verticalAlignment = Alignment.CenterVertically
         ){
             Image(
-                painter = painterResource(id = R.drawable.img),
+                painter = rememberAsyncImagePainter(product.imageUrl),
                 contentDescription = "products",
                 modifier = Modifier
                     .fillMaxWidth(0.2f)
                     .padding(end = 8.dp)
             )
             Text(
-                text= "Product 1",
+                text= product.nameItem,
                 modifier = Modifier
                     .weight(0.8f)
             )

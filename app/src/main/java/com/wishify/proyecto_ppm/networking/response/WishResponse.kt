@@ -6,7 +6,7 @@ data class CategoryResponse(val categories: List<WishCategory>)
 data class FilterResponse(val products: List<WishProduct>)
 
 data class WishCategory(
-    @SerializedName("id") val id: String,
+    @SerializedName("id") val id: Int,
     @SerializedName("img") val imageUrl: String,
     @SerializedName("nombre") val category: String
 )

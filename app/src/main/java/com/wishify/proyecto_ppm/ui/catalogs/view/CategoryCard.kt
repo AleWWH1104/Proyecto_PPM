@@ -19,21 +19,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.R
+import com.wishify.proyecto_ppm.networking.response.WishCategory
 
 @Composable
-fun CategoryCard(text: String, navController: NavController){
+fun CategoryCard(category: WishCategory, navController: NavController){
     Row(
         modifier = Modifier
             .background(Color.White)
             .width(180.dp)
             .height(60.dp)
-            .clickable {navController.navigate(NavigationState.CategoriesFilter.route)},
+            .clickable {navController.navigate(NavigationState.CategoriesFilter.createRoute(category.id))},
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img),
+            painter = rememberAsyncImagePainter(category.imageUrl),
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
@@ -41,7 +43,7 @@ fun CategoryCard(text: String, navController: NavController){
             contentScale = ContentScale.Crop
         )
         Text(
-            text = text,
+            text = category.category?: "",
             color = Color.Black,
             modifier = Modifier
                 .weight(0.6f)
