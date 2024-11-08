@@ -18,10 +18,12 @@ import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
+import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 @Composable
 fun Categories(navController: NavController) {
     Scaffold(
+        topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
     ) { paddingValues ->
         Column(
@@ -30,7 +32,7 @@ fun Categories(navController: NavController) {
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ) {
-            Banner(texto = R.string.lookItem, painterResource(id = R.drawable.gift2), navController)
+            Banner(texto = R.string.lookItem)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -39,7 +41,7 @@ fun Categories(navController: NavController) {
             ) {
                 Text(text = stringResource(id = R.string.typesProductos))
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
+                    columns = GridCells.Fixed(2),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
@@ -47,7 +49,7 @@ fun Categories(navController: NavController) {
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(12) { index ->
-                        SelectCategories(
+                        CategoryCard(
                             text = "Category ${index + 1}",
                             navController = navController
                         )

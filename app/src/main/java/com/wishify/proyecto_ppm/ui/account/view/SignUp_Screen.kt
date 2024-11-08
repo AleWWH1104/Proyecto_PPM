@@ -20,107 +20,79 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
+import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(navController: NavController) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "atras",
-                            tint = Color(0xFFb2422d)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFfef0e1)
-                )
-            )
-        }
+        topBar = { topNavBar(navController = navController) }
     ) { paddingValues ->
-        // Contenido principal
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFb2422d))
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Sección superior con el texto "Welcome Back"
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFfef0e1))
-                    .padding(vertical = 60.dp),
-                contentAlignment = Alignment.Center
+                    .weight(1f)
+                    .background(Color(0xFFfef0e1)),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = stringResource(id = R.string.createAccount),
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 40.sp,
+                        fontSize = 45.sp,
                         fontWeight = FontWeight.Bold
-                    ),
-                    color = Color(0xFFb2422d),
+                    ), color = Color(0xFFb2422d),
                 )
             }
-
-            // Campos de texto
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 32.dp),
+                    .weight(1.8f)
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "Username",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-                smallTexField()  // Campo de nombre de usuario
-
+                smallTexField() // Campo de user
+                Spacer(modifier = Modifier.padding(16.dp))
                 Text(
                     text = "Password",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
                 smallTexField()  // Campo de contraseña
-            }
-
-            // Botón de inicio de sesión
-            LargeButtons(
-                texto = R.string.signUp,
-                onClick = { navController.navigate(NavigationState.Home.route) },
-                buttonColor = Color(0xFFfef0e1),
-                textColor = Color(0xFFb2422d)
-            )
-
-            // Imagen inferior
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .background(Color(0xFFb2422d)),
-                contentAlignment = Alignment.BottomCenter
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.nubes_invert),
-                    contentDescription = "nubes",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
+                Spacer(modifier = Modifier.padding(16.dp))
+                LargeButtons(
+                    texto = R.string.signUp,
+                    onClick = { navController.navigate(NavigationState.AllLists.route) },
+                    buttonColor = Color(0xFFfef0e1),
+                    textColor = Color(0xFFb2422d)
                 )
             }
+            Image(
+                painter = painterResource(id = R.drawable.nubes_invert),
+                contentDescription = "nubes",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
         }
     }
 }
+
+
+

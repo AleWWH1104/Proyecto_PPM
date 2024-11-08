@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
@@ -19,7 +21,7 @@ import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Composable
-fun ListCard(nameList: String, event: String, navController: NavController) {
+fun ListCard(nameList: String, event: String, imagen: Painter, navController: NavController) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -29,31 +31,40 @@ fun ListCard(nameList: String, event: String, navController: NavController) {
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.img),
+            painter = imagen,
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.3f),
+                .weight(0.5f),
             contentScale = ContentScale.Crop
         )
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(0.5f)
                 .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Column() {
-                Text(
-                    text = nameList,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    text = event,
-                    style = MaterialTheme.typography.titleSmall,
-                )
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = nameList,
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = event,
+                style = MaterialTheme.typography.titleSmall,
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                IconButton(onClick = {}) { //Accion pendiente
+                    Icon(imageVector = Icons.Filled.Delete, contentDescription = "iTrash", tint = Color(0xFFb2422d))
+                }
+                IconButton(onClick = {navController.navigate(NavigationState.MyList.route)}) {
+                    Icon(imageVector = Icons.Filled.Info, contentDescription = "iInfo", tint = Color(0xFFb2422d))
+                }
             }
-            //Modificar el INT para las listas correctas
-            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.MyList.route)})
         }
     }
 }

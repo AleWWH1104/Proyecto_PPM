@@ -9,15 +9,20 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.wishify.proyecto_ppm.R
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
+import com.wishify.proyecto_ppm.ui.elements.SearchingBar
+import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 
 @Composable
 fun MainLists(navController: NavController){
     Scaffold(
+        topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
     ){paddingValues ->
         Column(
@@ -26,7 +31,8 @@ fun MainLists(navController: NavController){
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ){
-            Banner(texto = R.string.slogan, painterResource(id = R.drawable.gift2), navController)
+            Banner(texto = R.string.slogan)
+            SearchingBar()
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 modifier = Modifier
@@ -40,6 +46,7 @@ fun MainLists(navController: NavController){
                     ListCard(
                         nameList = "List Name ${index + 1}",
                         event = "Event ${index + 1}",
+                        imagen = painterResource(id = R.drawable.img),
                         navController = navController
                     )
                 }
@@ -47,6 +54,5 @@ fun MainLists(navController: NavController){
         }
     }
 }
-
 
 

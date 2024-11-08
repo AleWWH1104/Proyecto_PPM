@@ -23,10 +23,13 @@ import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.LargeTextField
+import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
+@Preview
 @Composable
-fun AddItem(navController: NavController) {
+fun AddItem(navController: NavController= rememberNavController()) {
     Scaffold(
+        topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
     ) { paddingValues ->
         Column(
@@ -35,10 +38,7 @@ fun AddItem(navController: NavController) {
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ) {
-            // Banner
-            Banner(texto = R.string.describeWish, painterResource(id = R.drawable.gift2), navController)
-
-            // Contenido desplazable
+            Banner(texto = R.string.describeWish)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -57,9 +57,14 @@ fun AddItem(navController: NavController) {
                         contentDescription = "products",
                         modifier = Modifier
                             .width(180.dp)
-                            .padding(8.dp)
+                            .weight(0.5f)
+                            .padding(16.dp)
                     )
-                    Column {
+                    Column(
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .padding(start= 16.dp)
+                    ) {
                         Text(
                             text = "Product 1",
                             style = MaterialTheme.typography.titleMedium

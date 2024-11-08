@@ -25,10 +25,12 @@ import com.wishify.proyecto_ppm.navigation.NavigationState
 
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
+import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 @Composable
 fun UserAccount(navController: NavController){
     Scaffold(
+        topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
     ){ paddingValues ->
         Column(
@@ -50,8 +52,6 @@ fun UserAccount(navController: NavController){
                         .padding(vertical = 16.dp)
                 )
             }
-
-            // parte del usuario
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -66,7 +66,6 @@ fun UserAccount(navController: NavController){
                         .size(300.dp)
                         .align(Alignment.End)
                         .padding(vertical = 0.dp)
-
                 )
                 Text(
                     text = "Username\n",
@@ -76,11 +75,8 @@ fun UserAccount(navController: NavController){
                     color = Color(0xFFb2422d),
                     modifier = Modifier
                         .padding(top = 8.dp),
-
-
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                // Botón de inicio de sesión
                 LargeButtons(
                     texto = R.string.signOut,
                     onClick = { navController.navigate(NavigationState.Home.route) },
@@ -94,10 +90,7 @@ fun UserAccount(navController: NavController){
                     buttonColor = Color(0xFFb2422d),
                     textColor = Color(0xFFfef0e1)
                 )
-
             }
         }
-
     }
-
 }

@@ -16,57 +16,26 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Banner(@StringRes texto: Int, imagen: Painter, navController: NavController) {
+fun Banner(@StringRes texto: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp) // Mantener la altura fija
+            .height(200.dp)
             .background(Color(0xFFb2422d))
     ) {
-        Column(
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "logo",
+            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.5f)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-            ){
-                TopAppBar(
-                    title = { },
-                    navigationIcon = {
-                        IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "atras",
-                                tint = Color.White
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color(0xFFb2422d)
-                    ),
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "logo",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            )
-        }
-
+                .height(70.dp)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,7 +51,7 @@ fun Banner(@StringRes texto: Int, imagen: Painter, navController: NavController)
                     .weight(0.6f),
             )
             Image(
-                painter = imagen,
+                painter = painterResource(id = R.drawable.gift2),
                 contentDescription = "img",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier

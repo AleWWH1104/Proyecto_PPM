@@ -6,7 +6,7 @@ import com.wishify.proyecto_ppm.ui.account.view.*
 import com.wishify.proyecto_ppm.ui.catalogs.view.AddItem
 import com.wishify.proyecto_ppm.ui.catalogs.view.Categories
 import com.wishify.proyecto_ppm.ui.catalogs.view.ProductsByCategory
-import com.wishify.proyecto_ppm.ui.wishLists.view.AboutWish
+import com.wishify.proyecto_ppm.ui.guest.AboutWish
 import com.wishify.proyecto_ppm.ui.wishLists.view.AddList
 import com.wishify.proyecto_ppm.ui.wishLists.view.MainLists
 import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
@@ -16,7 +16,7 @@ fun AppNavigation(){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = NavigationState.Home.route ) {
         composable(route = NavigationState.Home.route){
-            Beginning(navController)
+            HomeScreen(navController)
         }
         composable(route = NavigationState.SignIn.route){
             SignInScreen(navController)

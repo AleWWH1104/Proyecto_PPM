@@ -7,23 +7,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.wishify.proyecto_ppm.ui.catalogs.view.SelectEvent
+import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
+import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 @Composable
 fun AddList(navController: NavController){
     Scaffold(
+        topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
     ){paddingValues ->
         Column(
@@ -32,11 +34,11 @@ fun AddList(navController: NavController){
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
         ){
-            Banner(texto = R.string.WishList, painterResource(id = R.drawable.gift1), navController)
+            Banner(texto = R.string.WishList)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Text(text= stringResource(id = R.string.listName))
@@ -44,7 +46,7 @@ fun AddList(navController: NavController){
                 Spacer(modifier = Modifier.padding(8.dp))
                 Text(text= stringResource(id = R.string.event))
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
+                    columns = GridCells.Fixed(2),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
@@ -52,14 +54,19 @@ fun AddList(navController: NavController){
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(12) { index ->
-                        SelectEvent(text = "Evento ${index + 1}")
+                        EventCard(
+                            text = "Evento ${index + 1}",
+                            image = painterResource(id = R.drawable.img))
                     }
                 }
                 Spacer(modifier = Modifier.padding(8.dp))
-//                LargeButtons(texto = R.string.createList, {})
-
+                LargeButtons(
+                    texto = R.string.createList,
+                    onClick = { navController.navigate(NavigationState.AllLists.route) },
+                    buttonColor = Color(0xFFfef0e1),
+                    textColor = Color(0xFFb2422d)
+                )
             }
-
         }
     }
 }

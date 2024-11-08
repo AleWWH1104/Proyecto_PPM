@@ -27,4 +27,5 @@
     <string name="deleteBtn">Eliminar</string>
     <string name="reserBtn">Reservar</string>
     <string name="shareBtn">Compartir</string>
+    <string name="guest">Continue como invitado</string>
 </resources>
