@@ -21,7 +21,6 @@ import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
-@Preview
 @Composable
 fun AboutWish(navController: NavController){
     Scaffold(
