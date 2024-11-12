@@ -25,23 +25,25 @@ class CategoryViewModel(val repository: CategoryRepository = CategoryRepository(
         _isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val products = repository.getWishCategories()
-                _categories.postValue(products)
+                val categories = repository.getWishCategories()
+                _categories.postValue(categories)
+                Log.d("CategoryViewModel", "Categories loaded: $categories")
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e("CategoryViewModel", "Error fetching categories", e)
             } finally {
                 _isLoading.postValue(false)
             }
         }
     }
 
-    fun fetchByCategory(categoryID: Int){
-        viewModelScope.launch {
+    fun fetchByCategory(categoryID: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val products = repository.filterByCategory(categoryID)
-                _products.value = products
+                _products.postValue(products)
+                Log.d("CategoryViewModel", "Products loaded for category $categoryID: $products")
             } catch (e: Exception) {
-                Log.e("WishViewModel", e.message.toString());
+                Log.e("CategoryViewModel", "Error fetching products for category $categoryID", e)
             }
         }
     }
