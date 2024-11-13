@@ -12,8 +12,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.sp
 
 
+// Clase de datos para representar un evento
+data class Event(val text: String, val image: Painter)
 
 @Composable
 fun EventCard(text: String, image: Painter){
@@ -35,6 +38,8 @@ fun EventCard(text: String, image: Painter){
         Text(
             text = text,
             color = Color.Black,
+            fontSize = 10.sp,
+            lineHeight = 12.sp,
             modifier = Modifier
                 .weight(0.6f)
                 .padding(8.dp)

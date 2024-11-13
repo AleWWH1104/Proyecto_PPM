@@ -17,6 +17,8 @@ import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun ProductCard(navController: NavController, product: WishProduct){
@@ -39,14 +41,17 @@ fun ProductCard(navController: NavController, product: WishProduct){
                 contentDescription = "products",
                 modifier = Modifier
                     .fillMaxWidth(0.2f)
+                    .fillMaxHeight()
                     .padding(end = 8.dp)
             )
             Text(
                 text= product.nameItem,
+                color = Color.Black,
                 modifier = Modifier
                     .weight(0.8f)
             )
-            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.addDetail.route)})
+            val encodedUrl = URLEncoder.encode(product.imageUrl, StandardCharsets.UTF_8.toString())
+            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.addItemDetail.createRoute(product.nameItem, encodedUrl))})
         }
     }
 }

@@ -49,7 +49,7 @@ fun SignUpScreen(navController: NavController) {
                 Text(
                     text = stringResource(id = R.string.createAccount),
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 45.sp,
+                        fontSize = 35.sp,
                         fontWeight = FontWeight.Bold
                     ), color = Color(0xFFb2422d),
                 )

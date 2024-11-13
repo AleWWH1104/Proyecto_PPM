@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.AppBar
@@ -25,9 +26,8 @@ import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.LargeTextField
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
-@Preview
 @Composable
-fun AddItem(navController: NavController= rememberNavController()) {
+fun AddItem(navController: NavController, nameItem: String, imgItem: String ) {
     Scaffold(
         topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
@@ -44,7 +44,7 @@ fun AddItem(navController: NavController= rememberNavController()) {
                     .fillMaxWidth()
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Row(
                     modifier = Modifier
@@ -53,7 +53,7 @@ fun AddItem(navController: NavController= rememberNavController()) {
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.img),
+                        painter = rememberAsyncImagePainter(imgItem),
                         contentDescription = "products",
                         modifier = Modifier
                             .width(180.dp)
@@ -66,19 +66,18 @@ fun AddItem(navController: NavController= rememberNavController()) {
                             .padding(start= 16.dp)
                     ) {
                         Text(
-                            text = "Product 1",
+                            text = nameItem,
+                            color = Color.Black,
                             style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = "Categoria",
-                            style = MaterialTheme.typography.titleSmall
                         )
                     }
                 }
                 Spacer(modifier = Modifier.padding(16.dp))
                 Text(
                     "Agrega una descripcion mas especifica para tu deseo (colores/tamaño/marca/etc).\n\nEj. Unas botas largas de color negro de Zara ...",
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Color.Black,
+                    style = MaterialTheme.typography.bodySmall
                 )
                 LargeTextField()
                 Spacer(modifier = Modifier.padding(8.dp))

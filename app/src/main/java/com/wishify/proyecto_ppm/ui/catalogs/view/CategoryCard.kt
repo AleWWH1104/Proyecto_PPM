@@ -13,11 +13,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.wishify.proyecto_ppm.navigation.NavigationState
@@ -31,7 +35,7 @@ fun CategoryCard(category: WishCategory, navController: NavController){
             .background(Color.White)
             .width(180.dp)
             .height(60.dp)
-            .clickable {navController.navigate(NavigationState.CategoriesFilter.createRoute(category.id))},
+            .clickable {navController.navigate(NavigationState.CategoriesFilter.createRoute(category.id, category.category))},
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -39,12 +43,15 @@ fun CategoryCard(category: WishCategory, navController: NavController){
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight()
                 .weight(0.4f),
             contentScale = ContentScale.Crop
         )
         Text(
             text = category.category?: "",
             color = Color.Black,
+            fontSize = 10.sp,
+            lineHeight = 12.sp,
             modifier = Modifier
                 .weight(0.6f)
                 .padding(8.dp)

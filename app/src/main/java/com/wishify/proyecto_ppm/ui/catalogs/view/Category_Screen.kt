@@ -57,7 +57,7 @@ fun Categories(navController: NavController, viewModel: CategoryViewModel= viewM
                 if (isLoading.value) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 } else {
-                    Text(text = stringResource(id = R.string.typesProductos))
+                    Text(text = stringResource(id = R.string.typesProductos), color = Color.Black)
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier

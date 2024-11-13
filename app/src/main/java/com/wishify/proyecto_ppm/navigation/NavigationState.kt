@@ -5,8 +5,8 @@ sealed class NavigationState(val route: String)  {
     data object Profile: NavigationState("profile")
     data object SignIn: NavigationState("signIn")
     data object SignUp: NavigationState("signUp")
+    data object Guest: NavigationState("guest")
     data object AllLists: NavigationState("allLists")
-    data object MyList: NavigationState("myList")
     data object InfoItem: NavigationState("lookup")
 
 //    data object MyList: NavigationState("myList/{listId}"){
@@ -19,12 +19,12 @@ sealed class NavigationState(val route: String)  {
 
     //Retrofit API
     data object Categories: NavigationState("categories")
-    data object CategoriesFilter: NavigationState("categories/{category}"){
-        fun createRoute(categoryID: Int) = "categories/$categoryID"
+    data object CategoriesFilter: NavigationState("categories/{category}/{title}"){
+        fun createRoute(categoryID: Int, title: String) = "categories/$categoryID/$title"
     }
-    data object addDetail: NavigationState("addDetail/{id}")
+    data object addItemDetail: NavigationState("addDetail/{nameItem}/{imgItem}"){
+        fun createRoute(nameItem: String, imgItem: String) = "addDetail/$nameItem/$imgItem"
+    }
 
-//    data object addDetail: NavigationState("addDetail/{id}"){
-//        fun createRoute(id: String) = "addDetail/$id"
-//    }
+data object MyList: NavigationState("myList")
 }

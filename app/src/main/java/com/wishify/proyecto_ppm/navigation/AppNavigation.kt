@@ -11,14 +11,19 @@ import com.wishify.proyecto_ppm.ui.catalogs.view.AddItem
 import com.wishify.proyecto_ppm.ui.catalogs.view.Categories
 import com.wishify.proyecto_ppm.ui.catalogs.view.ProductsByCategory
 import com.wishify.proyecto_ppm.ui.guest.AboutWish
+import com.wishify.proyecto_ppm.ui.guest.GuestScreen
 import com.wishify.proyecto_ppm.ui.wishLists.view.AddList
 import com.wishify.proyecto_ppm.ui.wishLists.view.MainLists
 import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
+import com.wishify.proyecto_ppm.R
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun AppNavigation(navController: NavHostController){
 
     NavHost(navController = navController, startDestination = NavigationState.Home.route ) {
+        //Inicio de Sesion
         composable(route = NavigationState.Home.route){
             HomeScreen(navController)
         }
@@ -31,6 +36,12 @@ fun AppNavigation(navController: NavHostController){
         composable(route = NavigationState.Profile.route){
             UserAccount(navController)
         }
+        composable(route = NavigationState.Guest.route){
+            GuestScreen(navController)
+        }
+
+
+
         composable(route = NavigationState.AllLists.route){
             MainLists(navController)
         }
@@ -56,19 +67,25 @@ fun AppNavigation(navController: NavHostController){
         }
         composable(route = NavigationState.CategoriesFilter.route,
             arguments = listOf(
-                navArgument("category") { type = NavType.IntType }
+                navArgument("category") { type = NavType.IntType },
+                navArgument("title") { type = NavType.StringType }
             )
         ){  backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)
             val categoryID = arguments.getInt("category")
-            ProductsByCategory(categoryID = categoryID, navController = navController)
+            val title = backStackEntry.arguments?.getString("title") ?: "Category"
+            ProductsByCategory(categoryID,title,navController)
         }
 
-        composable(route = NavigationState.addDetail.route){
-            AddItem(navController)
+        composable(route = NavigationState.addItemDetail.route,
+            arguments = listOf(
+                navArgument("nameItem") { type = NavType.StringType },
+                navArgument("imgItem") { type = NavType.StringType }
+            )
+        ){ backStackEntry ->
+            val nameItem = backStackEntry.arguments?.getString("nameItem")?: "Product Name"
+            val imgItem = URLDecoder.decode(backStackEntry.arguments?.getString("imgItem") ?: "Default Img URL", StandardCharsets.UTF_8.toString())
+            AddItem(navController,nameItem, imgItem)
         }
-
-
-
     }
 }

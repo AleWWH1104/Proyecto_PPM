@@ -63,7 +63,7 @@ fun UserAccount(navController: NavController){
                     contentDescription = "user pic",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .size(300.dp)
+                        .size(200.dp)
                         .align(Alignment.End)
                         .padding(vertical = 0.dp)
                 )

@@ -23,7 +23,7 @@ import com.wishify.proyecto_ppm.ui.elements.topNavBar
 import androidx.compose.runtime.livedata.observeAsState
 
 @Composable
-fun ProductsByCategory(categoryID: Int, navController: NavController, viewModel: CategoryViewModel= viewModel()){
+fun ProductsByCategory(categoryID: Int, titleCategory:String, navController: NavController, viewModel: CategoryViewModel= viewModel()){
     val categoryFilter by viewModel.products.observeAsState(null)
 
     LaunchedEffect(Unit) {
@@ -47,7 +47,7 @@ fun ProductsByCategory(categoryID: Int, navController: NavController, viewModel:
                 horizontalAlignment = Alignment.CenterHorizontally,
             ){
                 Text(
-                    text = "category",
+                    text = titleCategory,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 35.sp, fontWeight = FontWeight.Bold),
                     color = Color(0xFFb2422d),
                     textAlign = TextAlign.Center
