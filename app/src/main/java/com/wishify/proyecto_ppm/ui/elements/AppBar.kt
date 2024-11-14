@@ -46,7 +46,7 @@ fun topNavBar(navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp)
+            .height(60.dp)
     ) {
         TopAppBar(
             title = { },

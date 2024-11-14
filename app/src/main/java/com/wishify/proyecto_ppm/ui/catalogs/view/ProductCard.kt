@@ -9,16 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun ProductCard(navController: NavController, product: WishProduct){
@@ -33,25 +33,29 @@ fun ProductCard(navController: NavController, product: WishProduct){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(80.dp)
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
-            Image(
-                painter = rememberAsyncImagePainter(product.imageUrl),
-                contentDescription = "products",
+            AsyncImage(
+                model = product.imageUrl,
+                contentDescription = "Product Image",
                 modifier = Modifier
-                    .fillMaxWidth(0.2f)
+                    .fillMaxWidth()
+                    .weight(0.3f)
                     .fillMaxHeight()
-                    .padding(end = 8.dp)
+                    .padding(end = 8.dp),
+                contentScale = ContentScale.Crop
             )
             Text(
                 text= product.nameItem,
                 color = Color.Black,
+                fontSize = 10.sp,
+                lineHeight = 12.sp,
                 modifier = Modifier
-                    .weight(0.8f)
+                    .weight(0.7f)
             )
-            val encodedUrl = URLEncoder.encode(product.imageUrl, StandardCharsets.UTF_8.toString())
-            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.addItemDetail.createRoute(product.nameItem, encodedUrl))})
+            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.addItemDetail.createRoute(product.nameItem, "https://www.entornoturistico.com/wp-content/uploads/2020/09/agencia-de-viajes-1024x594.jpg"))})
         }
     }
 }

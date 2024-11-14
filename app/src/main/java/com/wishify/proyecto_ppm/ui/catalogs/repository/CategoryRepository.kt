@@ -8,14 +8,10 @@ import com.wishify.proyecto_ppm.networking.response.WishProduct
 class CategoryRepository(private val webService: WishWebService = WishWebService()) {
 
     suspend fun getWishCategories(): List<WishCategory> {
-        val categories = webService.getWishCategories()
-        Log.d("CategoryRepository", "Fetched categories: $categories")
-        return categories
+        return webService.getWishCategories()
     }
 
     suspend fun filterByCategory(categoryID: Int): List<WishProduct> {
-        val products = webService.getCategoryFilter(categoryID)
-        Log.d("CategoryRepository", "Fetched products for category $categoryID: $products")
-        return products
+        return webService.getCategoryFilter(categoryID)
     }
 }

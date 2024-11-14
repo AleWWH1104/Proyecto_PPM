@@ -84,7 +84,7 @@ fun AppNavigation(navController: NavHostController){
             )
         ){ backStackEntry ->
             val nameItem = backStackEntry.arguments?.getString("nameItem")?: "Product Name"
-            val imgItem = URLDecoder.decode(backStackEntry.arguments?.getString("imgItem") ?: "Default Img URL", StandardCharsets.UTF_8.toString())
+            val imgItem = backStackEntry.arguments?.getString("imgItem") ?: "Default Img URL"
             AddItem(navController,nameItem, imgItem)
         }
     }

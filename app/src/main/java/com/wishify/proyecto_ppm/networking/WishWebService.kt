@@ -1,8 +1,6 @@
 package com.wishify.proyecto_ppm.networking
 
-import com.wishify.proyecto_ppm.networking.response.CategoryResponse
 import com.wishify.proyecto_ppm.networking.response.Constants
-import com.wishify.proyecto_ppm.networking.response.FilterResponse
 import com.wishify.proyecto_ppm.networking.response.WishCategory
 import com.wishify.proyecto_ppm.networking.response.WishProduct
 import retrofit2.Retrofit
