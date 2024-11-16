@@ -132,7 +132,6 @@ fun SignInScreen(navController: NavController) {
                         println(" en el boton Email: ${email.value}, Password: ${password.value}")
 
                         tryLogIn()
-                        Toast.makeText(context, "Button works!", Toast.LENGTH_SHORT).show()
                               },
                     buttonColor = Color(0xFFfef0e1),
                     textColor = Color(0xFFb2422d),
