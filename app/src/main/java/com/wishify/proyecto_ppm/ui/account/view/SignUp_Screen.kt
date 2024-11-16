@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,10 +26,17 @@ import androidx.navigation.compose.rememberNavController
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
+import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignIn
+import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignUp
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 @Composable
 fun SignUpScreen(navController: NavController) {
+
+    // Estados para Username y Password
+    val username = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+
     Scaffold(
         topBar = { topNavBar(navController = navController) }
     ) { paddingValues ->
@@ -67,14 +76,20 @@ fun SignUpScreen(navController: NavController) {
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-                smallTexField() // Campo de user
+                smallTexFieldSignUp(
+                    text = username.value,
+                    onTextChange = { username.value = it } // Actualiza el estado
+                ) // Campo de user
                 Spacer(modifier = Modifier.padding(16.dp))
                 Text(
                     text = "Password",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-                smallTexField()  // Campo de contraseña
+                smallTexFieldSignUp(
+                    text = password.value,
+                    onTextChange = { password.value = it } // Actualiza el estado
+                )  // Campo de contraseña
                 Spacer(modifier = Modifier.padding(16.dp))
                 LargeButtons(
                     texto = R.string.signUp,

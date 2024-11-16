@@ -7,6 +7,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,14 +21,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
+import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignIn
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 @Composable
 fun SignInScreen(navController: NavController) {
+    // Estados para Username y Password
+    val username = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+
     Scaffold(
         topBar = { topNavBar(navController = navController) }
     ) { paddingValues ->
@@ -66,14 +74,20 @@ fun SignInScreen(navController: NavController) {
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-                smallTexField() // Campo de user
+                smallTexFieldSignIn(
+                    text = username.value,
+                    onTextChange = { username.value = it } // Actualiza el estado
+                )
                 Spacer(modifier = Modifier.padding(16.dp))
                 Text(
                     text = "Password",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-                smallTexField()  // Campo de contraseña
+                smallTexFieldSignIn(
+                    text = password.value,
+                    onTextChange = { password.value = it } // Actualiza el estado
+                )
                 Spacer(modifier = Modifier.padding(16.dp))
                 LargeButtons(
                     texto = R.string.signIn,
@@ -92,6 +106,7 @@ fun SignInScreen(navController: NavController) {
         }
     }
 }
+
 
 
 
