@@ -30,6 +30,8 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wishify.proyecto_ppm.navigation.NavigationState
+import com.wishify.proyecto_ppm.networking.WishWebService
+import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.iconButtons
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
@@ -41,54 +43,76 @@ data class ListData2(
 
 @Composable
 fun ViewList(navController: NavController, codeList: String) {
-    println("Llegó a ViewList con codeList: $codeList")
-
-
     val db = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
-    val uid = currentUser?.uid
 
-    var verCodeList = codeList
-    println("$verCodeList, El tipo de dato de verCodeList en viewlist es:")
-    println(verCodeList::class.simpleName)
-
-    // Estados para almacenar los datos de Firestore
+    // Estados para datos
     var listNameP by remember { mutableStateOf("") }
     var eventP by remember { mutableStateOf("") }
-    var lists by remember { mutableStateOf<List<ListData2>>(emptyList()) }
-
-    println("$codeList, El tipo de dato de codelist en viewlist es:")
-    println(codeList::class.simpleName)
+    var itemListProdID by remember { mutableStateOf<List<Int>>(emptyList()) }
+    var productList by remember { mutableStateOf<List<WishProduct>>(emptyList()) }
+    var isLoading by remember { mutableStateOf(true) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     // Obtener datos de Firebase
     LaunchedEffect(codeList) {
-        val fetchedLists = mutableListOf<ListData2>() // Lista temporal
         db.collection("ListasP").document("ListaP")
             .collection("ListaP").document(codeList)
             .get()
-            .addOnSuccessListener { listDocument ->
-                val fetchedListNameP = listDocument.getString("listNameP") ?: ""
-                val fetchedEventP = listDocument.getString("EventP") ?: ""
-
-                // Actualizar estados
-                listNameP = fetchedListNameP
-                eventP = fetchedEventP
-
-                println("Funciona en viewlist1")
-                println("ListName1: $listNameP, Event: $eventP")
-
-                fetchedLists.add(ListData2(fetchedListNameP, fetchedEventP))
-                lists = fetchedLists // Asignar la lista al estado principal
-
-                println("Funciona en viewList2")
-                println("ListName2: $listNameP, Event: $eventP")
+            .addOnSuccessListener { document ->
+                listNameP = document.getString("listNameP") ?: ""
+                eventP = document.getString("EventP") ?: ""
+                itemListProdID = (document.get("itemListProdID") as? List<Long>)?.map { it.toInt() } ?: emptyList()
             }
-            .addOnFailureListener { exception ->
-                println("Error al obtener datos de CodeList: ${exception.message}")
+            .addOnFailureListener {
+                errorMessage = "Error al obtener datos de Firestore: ${it.message}"
             }
     }
 
+    // Obtener productos desde la API filtrados por `itemListProdID`
+    LaunchedEffect(itemListProdID) {
+        if (itemListProdID.isNotEmpty()) {
+            try {
+                val wishWebService = WishWebService()
+                val allProducts = mutableListOf<WishProduct>()
+
+                // Obtener categorías de la API (puede ajustarse si ya están disponibles)
+                val categories = wishWebService.getWishCategories()
+
+                for (category in categories) {
+                    // Obtener productos por categoría
+                    val productsFromApi = wishWebService.getCategoryFilter(category.id)
+
+                    // Filtrar productos cuyo itemID coincida con los de itemListProdID
+                    val matchingProducts = productsFromApi.filter { it.itemID in itemListProdID }
+
+                    // Agregar los productos coincidentes a la lista acumulada
+                    allProducts.addAll(matchingProducts)
+                }
+
+                // Actualizar productList con los productos filtrados
+                productList = allProducts
+                println("Lista final de productos: $productList") // Log de depuración
+                isLoading = false
+            } catch (e: Exception) {
+                errorMessage = "Error al obtener productos de la API: ${e.message}"
+                isLoading = false
+            }
+        } else {
+            isLoading = false
+        }
+    }
+
+
+
+
+
+    println("itemListProdID: ")
+    println(itemListProdID)
+
+    println("all prod productList: ")
+    println(productList)
+
+    // Interfaz
     Scaffold(
         topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
@@ -98,14 +122,14 @@ fun ViewList(navController: NavController, codeList: String) {
                 .fillMaxSize()
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Text(
                     text = listNameP,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 45.sp, fontWeight = FontWeight.Bold),
@@ -122,26 +146,49 @@ fun ViewList(navController: NavController, codeList: String) {
                         .padding(vertical = 26.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
-                ){
-                    Text(text ="Code List: $codeList", modifier = Modifier
-                        .background(Color.White)
-                        .padding(16.dp) )
-                    iconButtons(icon = Icons.Filled.AddCircle, texto = R.string.addBtn, onClick = { navController.navigate(NavigationState.Categories.route)})
-                }
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(6) { index ->
-                        ItemCard(nameItem = "Item: ${index +1}", imageItem = painterResource(id = R.drawable.img), icono = Icons.Filled.Delete, onClick = {})
+                    Text(
+                        text = "Code List: $codeList",
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(16.dp)
+                    )
+                    iconButtons(
+                        icon = Icons.Filled.AddCircle,
+                        texto = R.string.addBtn,
+                        onClick = { navController.navigate(NavigationState.Categories.route) }
+                    )
+                }
+                if (isLoading) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                } else if (errorMessage != null) {
+                    Text(
+                        text = errorMessage!!,
+                        color = Color.Red,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(productList) { product ->
+                            ItemCard(
+                                nameItem = product.nameItem,
+                                imageItem = painterResource(id = R.drawable.img),
+                                icono = Icons.Filled.Delete,
+                                onClick = { /* Acción para eliminar */ }
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+
