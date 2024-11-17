@@ -34,9 +34,9 @@ fun AppNavigation(navController: NavHostController){
         composable(route = NavigationState.AllLists.route){
             MainLists(navController)
         }
-        composable(route = NavigationState.MyList.route){
-            ViewList(navController)
-        }
+        //composable(route = NavigationState.MyList.route){
+        //    ViewList(navController)
+        //}
         composable(route = NavigationState.InfoItem.route){
             AboutWish(navController)
         }
@@ -68,6 +68,17 @@ fun AppNavigation(navController: NavHostController){
             AddItem(navController)
         }
 
+        // ruta nueva para manejar el poder pasar datos de code list
+        // Nueva ruta para manejar MyList con argumento CodeList
+        composable(
+            route = "MyList/{codeList}",
+            arguments = listOf(
+                navArgument("codeList") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            ViewList(navController = navController, codeList = codeList)
+        }
 
 
     }

@@ -75,8 +75,8 @@ fun AddList(navController: NavController){
             val listData = hashMapOf(
                 "CodeList" to codeList,
                 "EventP" to selectedEvent.value,
-                "itemListCategID" to "",
-                "itemListProdID" to 0,
+                "itemListCategID" to emptyList<Int>(),
+                "itemListProdID" to emptyList<Int>(),
                 "listNameP" to listName.value
             )
 
@@ -90,10 +90,13 @@ fun AddList(navController: NavController){
                     //val currentUID = auth.currentUser?.uid
                     val uid = auth.currentUser?.uid
                     if (uid != null) {
+                        // guaradar la codelist en la lista del UID current
                         addCodeListToUser(uid, codeList)
                     } else {
                         println("el UID es incorrecto.")
                     }
+                    println("$codeList, El tipo de dato de codelist en addlist es:")
+                    println(codeList::class.simpleName)
                     navController.navigate(NavigationState.AllLists.route)
 
                 }
