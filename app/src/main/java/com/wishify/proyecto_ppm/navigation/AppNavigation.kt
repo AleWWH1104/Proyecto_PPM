@@ -1,6 +1,7 @@
 package com.wishify.proyecto_ppm.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -34,26 +35,15 @@ fun AppNavigation(navController: NavHostController){
         composable(route = NavigationState.AllLists.route){
             MainLists(navController)
         }
-        //composable(route = NavigationState.MyList.route){
-        //    ViewList(navController)
-        //}
+
         composable(route = NavigationState.InfoItem.route){
             AboutWish(navController)
         }
-//        composable(NavigationState.MyList.route) { backStackEntry ->
-//            val listId = backStackEntry.arguments?.getString("listId")?.toInt() ?: 0
-//            ViewList()
-//        }
-//        composable(NavigationState.InfoItem.route) { backStackEntry ->
-//            val listId = backStackEntry.arguments?.getString("idItem")?.toInt() ?: 0
-//            AboutWish()
-//        }
+
         composable(route = NavigationState.NewList.route){
             AddList(navController)
         }
-        //composable(route = NavigationState.Categories.route){
-        //    Categories(navController)
-        //}
+
         composable(
             route = NavigationState.Categories.route,
             arguments = listOf(navArgument("codeList") { type = NavType.StringType })
@@ -62,28 +52,30 @@ fun AppNavigation(navController: NavHostController){
             Categories(navController = navController, codeList = codeList)
         }
 
-        //composable(route = NavigationState.ProductsByCategory.route,
-        //    arguments = listOf(
-        //        navArgument("category") { type = NavType.IntType }
-        //    )
-        //){  backStackEntry ->
-        //    val arguments = requireNotNull(backStackEntry.arguments)
-        //    val categoryID = arguments.getInt("category")
-        //    ProductsByCategory(categoryID = categoryID, navController = navController)
-        //}
-
         composable(
             route = NavigationState.ProductsByCategory.route,
-            arguments = listOf(navArgument("category") { type = NavType.IntType })
+            arguments = listOf(
+                navArgument("category") { type = NavType.IntType },
+                navArgument("codeList") { type = NavType.StringType; defaultValue = "" }
+            )
         ) { backStackEntry ->
             val categoryID = backStackEntry.arguments?.getInt("category") ?: 0
-            ProductsByCategory(navController = navController, categoryID = categoryID)
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            ProductsByCategory(categoryID = categoryID, codeList = codeList, navController = navController, viewModel = viewModel())
         }
 
 
-        composable(route = NavigationState.addDetail.route){
-            AddItem(navController)
+
+
+
+        composable(
+            route = NavigationState.addDetail.route,
+            arguments = listOf(navArgument("codeList") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            AddItem(navController = navController, codeList = codeList)
         }
+
 
         // ruta nueva para manejar el poder pasar datos de code list
         // Nueva ruta para manejar MyList con argumento CodeList

@@ -70,7 +70,7 @@ fun Categories(navController: NavController, codeList: String, viewModel: Catego
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(categories.value) { category ->
-                            CategoryCard(category, navController)
+                            CategoryCard(category, codeList, navController)
                         }
                     }
                 }

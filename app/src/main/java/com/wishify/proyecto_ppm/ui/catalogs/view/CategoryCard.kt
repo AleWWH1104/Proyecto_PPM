@@ -25,13 +25,18 @@ import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.networking.response.WishCategory
 
 @Composable
-fun CategoryCard(category: WishCategory, navController: NavController){
+fun CategoryCard(category: WishCategory, codeList: String, navController: NavController) {
     Row(
         modifier = Modifier
             .background(Color.White)
             .width(180.dp)
             .height(60.dp)
-            .clickable {navController.navigate(NavigationState.ProductsByCategory.createRoute(category.id))},
+            .clickable {
+                // Navegar pasando tanto el category.id como el codeList
+                navController.navigate(
+                    NavigationState.ProductsByCategory.createRoute(category.id, codeList)
+                )
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -43,7 +48,7 @@ fun CategoryCard(category: WishCategory, navController: NavController){
             contentScale = ContentScale.Crop
         )
         Text(
-            text = category.category?: "",
+            text = category.category ?: "",
             color = Color.Black,
             modifier = Modifier
                 .weight(0.6f)
@@ -51,3 +56,4 @@ fun CategoryCard(category: WishCategory, navController: NavController){
         )
     }
 }
+

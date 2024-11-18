@@ -25,11 +25,12 @@ import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.LargeTextField
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
-@Preview
+
 @Composable
-fun AddItem(navController: NavController= rememberNavController()) {
+fun AddItem(navController: NavController = rememberNavController(), codeList: String) {
 
     println("Esta en AddItemscreen")
+    println("con el codeList: $codeList")
 
     Scaffold(
         topBar = { topNavBar(navController = navController) },
