@@ -70,11 +70,24 @@ fun AppNavigation(navController: NavHostController){
 
         composable(
             route = NavigationState.addDetail.route,
-            arguments = listOf(navArgument("codeList") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("codeList") { type = NavType.StringType },
+                navArgument("productID") { type = NavType.IntType },
+                navArgument("productName") { type = NavType.StringType }
+            )
         ) { backStackEntry ->
             val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
-            AddItem(navController = navController, codeList = codeList)
+            val productID = backStackEntry.arguments?.getInt("productID") ?: 0
+            val productName = backStackEntry.arguments?.getString("productName") ?: ""
+
+            AddItem(
+                navController = navController,
+                codeList = codeList,
+                productID = productID,
+                productName = productName
+            )
         }
+
 
 
         // ruta nueva para manejar el poder pasar datos de code list

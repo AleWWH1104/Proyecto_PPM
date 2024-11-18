@@ -20,6 +20,9 @@ import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Composable
 fun ProductCard(navController: NavController, product: WishProduct, codeList: String) {
+    println("Product de productCard: $product")
+    println("Product name de productCard: ${product.nameItem}")
+    println("Product id de productCard: ${product.itemID}")
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +51,7 @@ fun ProductCard(navController: NavController, product: WishProduct, codeList: St
             )
             smallButtons(texto = R.string.seeBtn, onClick = {
                 // Navegar a AddItem pasando codeList como parámetro
-                navController.navigate(NavigationState.addDetail.createRoute(codeList))
+                navController.navigate(NavigationState.addDetail.createRoute(codeList, product))
             })
         }
     }
