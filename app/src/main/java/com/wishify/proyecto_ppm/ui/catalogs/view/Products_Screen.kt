@@ -24,6 +24,9 @@ import androidx.compose.runtime.livedata.observeAsState
 
 @Composable
 fun ProductsByCategory(categoryID: Int, navController: NavController, viewModel: CategoryViewModel= viewModel()){
+
+    println("Esta en ProductsByCategory")
+
     val categoryFilter by viewModel.products.observeAsState(null)
 
     LaunchedEffect(Unit) {

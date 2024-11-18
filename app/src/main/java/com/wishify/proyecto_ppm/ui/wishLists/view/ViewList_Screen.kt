@@ -43,6 +43,9 @@ data class ListData2(
 
 @Composable
 fun ViewList(navController: NavController, codeList: String) {
+
+    println("Esta en viewList")
+
     val db = FirebaseFirestore.getInstance()
 
     // Estados para datos

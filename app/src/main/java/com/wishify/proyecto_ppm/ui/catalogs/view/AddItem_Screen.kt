@@ -28,6 +28,9 @@ import com.wishify.proyecto_ppm.ui.elements.topNavBar
 @Preview
 @Composable
 fun AddItem(navController: NavController= rememberNavController()) {
+
+    println("Esta en AddItemscreen")
+
     Scaffold(
         topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
