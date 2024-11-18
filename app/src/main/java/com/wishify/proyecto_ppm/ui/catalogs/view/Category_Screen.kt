@@ -29,9 +29,9 @@ import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 
 @Composable
-fun Categories(navController: NavController, viewModel: CategoryViewModel= viewModel()) {
+fun Categories(navController: NavController, codeList: String, viewModel: CategoryViewModel = viewModel()) {
 
-    println("Esta en CategoryScreen")
+    println("Esta en CategoryScreen con codeList: $codeList")
 
     val categories = viewModel.categories.observeAsState(initial = emptyList())
     val isLoading = viewModel.isLoading.observeAsState(initial = false)

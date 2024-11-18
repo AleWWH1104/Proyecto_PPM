@@ -159,7 +159,11 @@ fun ViewList(navController: NavController, codeList: String) {
                     iconButtons(
                         icon = Icons.Filled.AddCircle,
                         texto = R.string.addBtn,
-                        onClick = { navController.navigate(NavigationState.Categories.route) }
+                        onClick = {
+                            val route = NavigationState.Categories.createRoute(codeList)
+                            println("depu Navigating to route: $route") // Depuración
+                            navController.navigate(NavigationState.Categories.createRoute(codeList))
+                        }
                     )
                 }
                 if (isLoading) {

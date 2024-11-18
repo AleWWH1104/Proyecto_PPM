@@ -18,10 +18,19 @@ sealed class NavigationState(val route: String)  {
     data object NewList: NavigationState("newList")
 
     //Retrofit API
-    data object Categories: NavigationState("categories")
-    data object CategoriesFilter: NavigationState("categories/{category}"){
-        fun createRoute(categoryID: Int) = "categories/$categoryID"
+    //data object Categories: NavigationState("categories")
+    data object Categories {
+        const val route = "categories/{codeList}"
+        fun createRoute(codeList: String): String = "categories/$codeList"
     }
+
+    data object ProductsByCategory: NavigationState("products_by_category/{category}"){
+        fun createRoute(categoryID: Int) = "products_by_category/$categoryID"
+    }
+
+    //data object CategoriesFilter: NavigationState("categories/{category}"){
+    //    fun createRoute(categoryID: Int) = "categories/$categoryID"
+    //}
     data object addDetail: NavigationState("addDetail/{id}")
 
 //    data object addDetail: NavigationState("addDetail/{id}"){

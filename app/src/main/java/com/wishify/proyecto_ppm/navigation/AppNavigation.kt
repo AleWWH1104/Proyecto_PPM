@@ -51,18 +51,35 @@ fun AppNavigation(navController: NavHostController){
         composable(route = NavigationState.NewList.route){
             AddList(navController)
         }
-        composable(route = NavigationState.Categories.route){
-            Categories(navController)
+        //composable(route = NavigationState.Categories.route){
+        //    Categories(navController)
+        //}
+        composable(
+            route = NavigationState.Categories.route,
+            arguments = listOf(navArgument("codeList") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            Categories(navController = navController, codeList = codeList)
         }
-        composable(route = NavigationState.CategoriesFilter.route,
-            arguments = listOf(
-                navArgument("category") { type = NavType.IntType }
-            )
-        ){  backStackEntry ->
-            val arguments = requireNotNull(backStackEntry.arguments)
-            val categoryID = arguments.getInt("category")
-            ProductsByCategory(categoryID = categoryID, navController = navController)
+
+        //composable(route = NavigationState.ProductsByCategory.route,
+        //    arguments = listOf(
+        //        navArgument("category") { type = NavType.IntType }
+        //    )
+        //){  backStackEntry ->
+        //    val arguments = requireNotNull(backStackEntry.arguments)
+        //    val categoryID = arguments.getInt("category")
+        //    ProductsByCategory(categoryID = categoryID, navController = navController)
+        //}
+
+        composable(
+            route = NavigationState.ProductsByCategory.route,
+            arguments = listOf(navArgument("category") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val categoryID = backStackEntry.arguments?.getInt("category") ?: 0
+            ProductsByCategory(navController = navController, categoryID = categoryID)
         }
+
 
         composable(route = NavigationState.addDetail.route){
             AddItem(navController)

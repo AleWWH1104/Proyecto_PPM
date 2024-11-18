@@ -31,7 +31,7 @@ fun CategoryCard(category: WishCategory, navController: NavController){
             .background(Color.White)
             .width(180.dp)
             .height(60.dp)
-            .clickable {navController.navigate(NavigationState.CategoriesFilter.createRoute(category.id))},
+            .clickable {navController.navigate(NavigationState.ProductsByCategory.createRoute(category.id))},
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
