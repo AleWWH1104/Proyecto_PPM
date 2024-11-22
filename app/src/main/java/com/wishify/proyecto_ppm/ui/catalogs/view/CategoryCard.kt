@@ -29,13 +29,13 @@ import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.networking.response.WishCategory
 
 @Composable
-fun CategoryCard(category: WishCategory, navController: NavController){
+fun CategoryCard(category: WishCategory,codeList: String, navController: NavController){
     Row(
         modifier = Modifier
             .background(Color.White)
             .width(180.dp)
             .height(60.dp)
-            .clickable {navController.navigate(NavigationState.CategoriesFilter.createRoute(category.id, category.category))},
+            .clickable {navController.navigate(NavigationState.ProductsByCategory.createRoute(category.id, category.category, codeList))},
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(

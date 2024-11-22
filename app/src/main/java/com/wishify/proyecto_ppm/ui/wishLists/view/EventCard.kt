@@ -1,7 +1,9 @@
 package com.wishify.proyecto_ppm.ui.wishLists.view
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -12,23 +14,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 
 
 // Clase de datos para representar un evento
-data class Event(val text: String, val image: Painter)
+data class Event(val text: String, @DrawableRes val imageRes: Int)
 
 @Composable
-fun EventCard(text: String, image: Painter){
+fun EventCard(text: String, @DrawableRes imageRes: Int, isSelected: Boolean, onClick: () -> Unit){
     Row(
         modifier = Modifier
             .background(Color.White)
             .width(180.dp)
-            .height(60.dp),
+            .height(60.dp)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = image,
+            painter = painterResource(id = imageRes),
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()

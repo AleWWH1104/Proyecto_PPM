@@ -21,7 +21,13 @@ import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Composable
-fun ListCard(nameList: String, event: String, imagen: Painter, navController: NavController) {
+fun ListCard(
+    nameList: String,
+    event: String,
+    codeList: String,
+    imagenRes: Int,
+    navController: NavController
+) {
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -31,7 +37,7 @@ fun ListCard(nameList: String, event: String, imagen: Painter, navController: Na
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Image(
-            painter = imagen,
+            painter = painterResource(id = imagenRes),
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,16 +64,26 @@ fun ListCard(nameList: String, event: String, imagen: Painter, navController: Na
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
-                IconButton(onClick = {}) { //Accion pendiente
+                IconButton(onClick = {}) { //Acción pendiente
                     Icon(imageVector = Icons.Filled.Delete, contentDescription = "iTrash", tint = Color(0xFFb2422d))
                 }
-                IconButton(onClick = {navController.navigate(NavigationState.MyList.route)}) {
-                    Icon(imageVector = Icons.Filled.Info, contentDescription = "iInfo", tint = Color(0xFFb2422d))
+                IconButton(
+                    onClick = {
+                        // Navegar a MyList pasando el valor de codeList
+                        if (codeList.isNotEmpty()) {
+                            navController.navigate("MyList/$codeList")
+                        } else {
+                            println("Error: codeList está vacío.")
+                        }
+                    }
+                ) {
+                    Icon(imageVector = Icons.Filled.Info, contentDescription = "Información", tint = Color(0xFFb2422d))
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun ListCardInfo(nameItem: String, navController: NavController){

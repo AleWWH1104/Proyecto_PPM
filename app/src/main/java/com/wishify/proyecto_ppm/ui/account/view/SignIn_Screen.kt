@@ -1,5 +1,6 @@
 package com.wishify.proyecto_ppm.ui.account.view
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,9 +25,49 @@ import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
+import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignIn
 
 @Composable
 fun SignInScreen(navController: NavController) {
+
+    val auth = FirebaseAuth.getInstance()
+    val email = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+    val context = LocalContext.current // Obtén el contexto para usar con Toast
+    println("al iniciar Email: ${email.value}, Password: ${password.value}")
+
+    fun tryLogIn() {
+        println("tryLogIn called")
+        println(" en trylogin Email: ${email.value}, Password: ${password.value}")
+
+        try {
+            auth.signInWithEmailAndPassword(email.value, password.value)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        println("Login successful")
+                        navController.navigate(NavigationState.AllLists.route)
+                    } else {
+                        println("Sign-in failed: ${task.exception?.localizedMessage}")
+                        Toast.makeText(
+                            context,
+                            "Sign-in failed: ${task.exception?.localizedMessage ?: "Unknown error"}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        } catch (e: Exception) {
+            println("Exception during login: ${e.localizedMessage}")
+            Toast.makeText(
+                context,
+                "An error occurred: ${e.localizedMessage ?: "Unknown error"}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
     Scaffold(
         topBar = { topNavBar(navController = navController) }
     ) { paddingValues ->
@@ -62,24 +103,36 @@ fun SignInScreen(navController: NavController) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Username",
+                    text = "Email",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-                smallTexField() // Campo de user
+                smallTexFieldSignIn(
+                    text = email.value,
+                    onTextChange = { email.value = it } // Actualiza el estado
+                )
                 Spacer(modifier = Modifier.padding(16.dp))
                 Text(
                     text = "Password",
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp),
                     color = Color.White
                 )
-                smallTexField()  // Campo de contraseña
+                smallTexFieldSignIn(
+                    text = password.value,
+                    onTextChange = { password.value = it } // Actualiza el estado
+                )
                 Spacer(modifier = Modifier.padding(16.dp))
                 LargeButtons(
                     texto = R.string.signIn,
-                    onClick = { navController.navigate(NavigationState.AllLists.route) },
+
+                    onClick = {
+                        println(" en el boton Email: ${email.value}, Password: ${password.value}")
+
+                        tryLogIn()
+                    },
                     buttonColor = Color(0xFFfef0e1),
-                    textColor = Color(0xFFb2422d)
+                    textColor = Color(0xFFb2422d),
+                    enabled = email.value.isNotEmpty() && password.value.isNotEmpty()
                 )
             }
             Image(

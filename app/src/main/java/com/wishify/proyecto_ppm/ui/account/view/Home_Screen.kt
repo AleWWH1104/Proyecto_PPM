@@ -65,14 +65,16 @@ fun HomeScreen(navController: NavController) {
                     texto = R.string.signIn,
                     onClick = { navController.navigate(NavigationState.SignIn.route) },
                     buttonColor = Color(0xFFb2422d),
-                    textColor = Color.White
+                    textColor = Color.White,
+                    enabled = true
                 )
                 Spacer(modifier = Modifier.padding(8.dp))
                 LargeButtons(
                     texto = R.string.signUp,
                     onClick = { navController.navigate(NavigationState.SignUp.route)},
                     buttonColor = Color.White,
-                    textColor = Color(0xFFb2422d)
+                    textColor = Color(0xFFb2422d),
+                    enabled = true
                 )
                 Spacer(modifier = Modifier.padding(16.dp))
                 ClickableText(

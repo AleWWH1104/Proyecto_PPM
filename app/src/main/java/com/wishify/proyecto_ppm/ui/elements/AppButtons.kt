@@ -34,7 +34,6 @@ fun iconButtons(icon: ImageVector, @StringRes texto: Int, onClick: () -> Unit){
         Text(text=  stringResource(id = texto), color = Color.White)
     }
 }
-
 @Composable
 fun LargeButtons(@StringRes texto: Int, onClick: () -> Unit, buttonColor: Color, textColor: Color){
     Button(
@@ -47,5 +46,31 @@ fun LargeButtons(@StringRes texto: Int, onClick: () -> Unit, buttonColor: Color,
         )
     ) {
         Text(text= stringResource(id = texto), color = textColor)
+    }
+}
+
+@Composable
+fun LargeButtons(
+    @StringRes texto: Int,
+    onClick: () -> Unit,
+    buttonColor: Color,
+    textColor: Color,
+    enabled: Boolean // Nuevo parámetro
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth(0.7f)
+            .height(50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = buttonColor,
+            disabledContainerColor = buttonColor.copy(alpha = 0.4f) // Cambia el color cuando está deshabilitado
+        ),
+        enabled = enabled // Asigna el estado de habilitación al botón
+    ) {
+        Text(
+            text = stringResource(id = texto),
+            color = if (enabled) textColor else textColor.copy(alpha = 0.4f) // Cambia el color del texto si está deshabilitado
+        )
     }
 }

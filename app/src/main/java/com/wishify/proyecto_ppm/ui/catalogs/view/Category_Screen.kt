@@ -29,7 +29,7 @@ import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 
 @Composable
-fun Categories(navController: NavController, viewModel: CategoryViewModel= viewModel()) {
+fun Categories(navController: NavController,codeList: String, viewModel: CategoryViewModel= viewModel()) {
     val categories = viewModel.categories.observeAsState(initial = emptyList())
     val isLoading = viewModel.isLoading.observeAsState(initial = false)
 
@@ -67,7 +67,7 @@ fun Categories(navController: NavController, viewModel: CategoryViewModel= viewM
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(categories.value) { category ->
-                            CategoryCard(category, navController)
+                            CategoryCard(category,codeList, navController)
                         }
                     }
                 }

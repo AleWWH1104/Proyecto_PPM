@@ -40,52 +40,66 @@ fun AppNavigation(navController: NavHostController){
             GuestScreen(navController)
         }
 
-
-
         composable(route = NavigationState.AllLists.route){
             MainLists(navController)
-        }
-        composable(route = NavigationState.MyList.route){
-            ViewList(navController)
         }
         composable(route = NavigationState.InfoItem.route){
             AboutWish(navController)
         }
-//        composable(NavigationState.MyList.route) { backStackEntry ->
-//            val listId = backStackEntry.arguments?.getString("listId")?.toInt() ?: 0
-//            ViewList()
-//        }
-//        composable(NavigationState.InfoItem.route) { backStackEntry ->
-//            val listId = backStackEntry.arguments?.getString("idItem")?.toInt() ?: 0
-//            AboutWish()
-//        }
         composable(route = NavigationState.NewList.route){
             AddList(navController)
         }
-        composable(route = NavigationState.Categories.route){
-            Categories(navController)
+        composable(route = NavigationState.Categories.route,
+            arguments = listOf(
+                navArgument("codeList") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            Categories(navController = navController, codeList = codeList)
         }
-        composable(route = NavigationState.CategoriesFilter.route,
+        composable(route = NavigationState.ProductsByCategory.route,
             arguments = listOf(
                 navArgument("category") { type = NavType.IntType },
-                navArgument("title") { type = NavType.StringType }
+                navArgument("title") { type = NavType.StringType },
+                navArgument("codeList") { type = NavType.StringType; defaultValue = "" }
             )
         ){  backStackEntry ->
             val arguments = requireNotNull(backStackEntry.arguments)
             val categoryID = arguments.getInt("category")
             val title = backStackEntry.arguments?.getString("title") ?: "Category"
-            ProductsByCategory(categoryID,title,navController)
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            ProductsByCategory(categoryID,title, codeList, navController)
         }
 
-        composable(route = NavigationState.addItemDetail.route,
+        composable(
+            route = NavigationState.addDetail.route,
             arguments = listOf(
-                navArgument("nameItem") { type = NavType.StringType },
-                navArgument("imgItem") { type = NavType.StringType }
+                navArgument("codeList") { type = NavType.StringType },
+                navArgument("productID") { type = NavType.IntType },
+                navArgument("productName") { type = NavType.StringType }
             )
-        ){ backStackEntry ->
-            val nameItem = backStackEntry.arguments?.getString("nameItem")?: "Product Name"
-            val imgItem = backStackEntry.arguments?.getString("imgItem") ?: "Default Img URL"
-            AddItem(navController,nameItem, imgItem)
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            val productID = backStackEntry.arguments?.getInt("productID") ?: 0
+            val productName = backStackEntry.arguments?.getString("productName") ?: ""
+
+            AddItem(
+                navController = navController,
+                codeList = codeList,
+                productID = productID,
+                productName = productName
+            )
+        }
+
+        // Nueva ruta para manejar MyList con argumento CodeList
+        composable(
+            route = "MyList/{codeList}",
+            arguments = listOf(
+                navArgument("codeList") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            ViewList(navController = navController, codeList = codeList)
         }
     }
 }

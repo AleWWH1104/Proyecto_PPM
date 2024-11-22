@@ -34,7 +34,6 @@ fun LargeTextField(){
             .height(100.dp)
     )
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun smallTexField(){
@@ -54,5 +53,71 @@ fun smallTexField(){
             .padding(vertical = 16.dp)
     )
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun smallTexField(
+    text: String,
+    onTextChange: (String) -> Unit
+) {
+    TextField(
+        value = text,
+        onValueChange = onTextChange,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color(0xFFC97763),
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedIndicatorColor = Color.White,
+            unfocusedIndicatorColor = Color.White
+        ),
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .padding(vertical = 16.dp)
+    )
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun smallTexFieldSignIn(
+    text: String,
+    onTextChange: (String) -> Unit
+) {
+    TextField(
+        value = text,
+        onValueChange = onTextChange,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color(0xFFC97763),
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedIndicatorColor = Color.White,
+            unfocusedIndicatorColor = Color.White
+        ),
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .padding(vertical = 16.dp)
+    )
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun smallTexFieldSignUp(
+    text: String,
+    onTextChange: (String) -> Unit
+) {
+    TextField(
+        value = text,
+        onValueChange = onTextChange,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color(0xFFC97763),
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
+            focusedIndicatorColor = Color.White,
+            unfocusedIndicatorColor = Color.White
+        ),
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .padding(vertical = 16.dp)
+    )
+}

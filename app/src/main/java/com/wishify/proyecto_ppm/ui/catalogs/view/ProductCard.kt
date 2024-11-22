@@ -21,7 +21,7 @@ import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Composable
-fun ProductCard(navController: NavController, product: WishProduct){
+fun ProductCard(navController: NavController, product: WishProduct, codeList: String){
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,7 +55,7 @@ fun ProductCard(navController: NavController, product: WishProduct){
                 modifier = Modifier
                     .weight(0.7f)
             )
-            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.addItemDetail.createRoute(product.nameItem, "https://www.entornoturistico.com/wp-content/uploads/2020/09/agencia-de-viajes-1024x594.jpg"))})
+            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.addDetail.createRoute(codeList, product))})
         }
     }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "595180678364",
+    "project_id": "pruebadbpm",
+    "storage_bucket": "pruebadbpm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595180678364:android:283bd281f4ab39cc9a5819",
+        "android_client_info": {
+          "package_name": "com.wishify.proyecto_ppm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoSXC1oWhfrA5bhg6WBoXUMFHdz5KIKxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
