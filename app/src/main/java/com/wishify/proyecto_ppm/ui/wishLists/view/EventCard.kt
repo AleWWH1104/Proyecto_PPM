@@ -1,5 +1,6 @@
 package com.wishify.proyecto_ppm.ui.wishLists.view
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,20 +14,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.sp
 
 
+// Clase de datos para representar un evento
+data class Event(val text: String, @DrawableRes val imageRes: Int)
 
 @Composable
-fun EventCard(text: String, image: Painter){
+fun EventCard(text: String, @DrawableRes imageRes: Int, isSelected: Boolean, onClick: () -> Unit){
     Row(
         modifier = Modifier
             .background(Color.White)
             .width(180.dp)
-            .height(60.dp),
+            .height(60.dp)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = image,
+            painter = painterResource(id = imageRes),
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
@@ -36,46 +42,11 @@ fun EventCard(text: String, image: Painter){
         Text(
             text = text,
             color = Color.Black,
+            fontSize = 10.sp,
+            lineHeight = 12.sp,
             modifier = Modifier
                 .weight(0.6f)
                 .padding(8.dp)
         )
     }
 }
-
-// eventcard que se puede elegir
-@Composable
-fun EventCard(
-    text: String,
-    image: Painter,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .background(if (isSelected) Color(0xFFb2422d) else Color.White) // Cambia el fondo si está seleccionado
-            .width(180.dp)
-            .height(60.dp)
-            .clickable { onClick() }, // Detecta clics para seleccionar
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = image,
-            contentDescription = "",
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.4f),
-            contentScale = ContentScale.Crop
-        )
-        Text(
-            text = text,
-            color = if (isSelected) Color.White else Color.Black, // Cambia el color del texto si está seleccionado
-            modifier = Modifier
-                .weight(0.6f)
-                .padding(8.dp),
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-

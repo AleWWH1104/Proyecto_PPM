@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.ui.elements.SearchingBar
+import com.wishify.proyecto_ppm.ui.elements.SearchingBarGuest
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 @Composable
@@ -56,7 +57,9 @@ fun GuestScreen(navController: NavController) {
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center
                 )
-                SearchingBar()
+                SearchingBarGuest { codeList ->
+                    navController.navigate("view_guest_list/$codeList")
+                }
             }
             Image(
                 painter = painterResource(id = R.drawable.nubes),
@@ -67,3 +70,4 @@ fun GuestScreen(navController: NavController) {
         }
     }
 }
+

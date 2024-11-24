@@ -1,7 +1,6 @@
 package com.wishify.proyecto_ppm.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -12,14 +11,20 @@ import com.wishify.proyecto_ppm.ui.catalogs.view.AddItem
 import com.wishify.proyecto_ppm.ui.catalogs.view.Categories
 import com.wishify.proyecto_ppm.ui.catalogs.view.ProductsByCategory
 import com.wishify.proyecto_ppm.ui.guest.AboutWish
+import com.wishify.proyecto_ppm.ui.guest.GuestScreen
 import com.wishify.proyecto_ppm.ui.wishLists.view.AddList
 import com.wishify.proyecto_ppm.ui.wishLists.view.MainLists
 import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
+import com.wishify.proyecto_ppm.R
+import com.wishify.proyecto_ppm.ui.guest.ViewGuestList
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun AppNavigation(navController: NavHostController){
 
     NavHost(navController = navController, startDestination = NavigationState.Home.route ) {
+        //Inicio de Sesion
         composable(route = NavigationState.Home.route){
             HomeScreen(navController)
         }
@@ -32,41 +37,40 @@ fun AppNavigation(navController: NavHostController){
         composable(route = NavigationState.Profile.route){
             UserAccount(navController)
         }
+        composable(route = NavigationState.Guest.route){
+            GuestScreen(navController)
+        }
+
         composable(route = NavigationState.AllLists.route){
             MainLists(navController)
         }
-
-        composable(route = NavigationState.InfoItem.route){
-            AboutWish(navController)
-        }
-
+        //composable(route = NavigationState.InfoItem.route){
+        //    AboutWish(navController)
+        //}
         composable(route = NavigationState.NewList.route){
             AddList(navController)
         }
-
-        composable(
-            route = NavigationState.Categories.route,
-            arguments = listOf(navArgument("codeList") { type = NavType.StringType })
+        composable(route = NavigationState.Categories.route,
+            arguments = listOf(
+                navArgument("codeList") { type = NavType.StringType }
+            )
         ) { backStackEntry ->
             val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
             Categories(navController = navController, codeList = codeList)
         }
-
-        composable(
-            route = NavigationState.ProductsByCategory.route,
+        composable(route = NavigationState.ProductsByCategory.route,
             arguments = listOf(
                 navArgument("category") { type = NavType.IntType },
+                navArgument("title") { type = NavType.StringType },
                 navArgument("codeList") { type = NavType.StringType; defaultValue = "" }
             )
-        ) { backStackEntry ->
-            val categoryID = backStackEntry.arguments?.getInt("category") ?: 0
+        ){  backStackEntry ->
+            val arguments = requireNotNull(backStackEntry.arguments)
+            val categoryID = arguments.getInt("category")
+            val title = backStackEntry.arguments?.getString("title") ?: "Category"
             val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
-            ProductsByCategory(categoryID = categoryID, codeList = codeList, navController = navController, viewModel = viewModel())
+            ProductsByCategory(categoryID,title, codeList, navController)
         }
-
-
-
-
 
         composable(
             route = NavigationState.addDetail.route,
@@ -88,9 +92,6 @@ fun AppNavigation(navController: NavHostController){
             )
         }
 
-
-
-        // ruta nueva para manejar el poder pasar datos de code list
         // Nueva ruta para manejar MyList con argumento CodeList
         composable(
             route = "MyList/{codeList}",
@@ -102,6 +103,33 @@ fun AppNavigation(navController: NavHostController){
             ViewList(navController = navController, codeList = codeList)
         }
 
+        //rutas para guest
+        composable(
+            route = "view_guest_list/{codeList}",
+            arguments = listOf(navArgument("codeList") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            ViewGuestList(navController = navController, codeList = codeList)
+        }
 
+        composable(
+            route = NavigationState.AboutWish.route,
+            arguments = listOf(
+                navArgument("codeList") { type = NavType.StringType },
+                navArgument("productID") { type = NavType.IntType },
+                navArgument("productName") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val codeList = backStackEntry.arguments?.getString("codeList") ?: ""
+            val productID = backStackEntry.arguments?.getInt("productID") ?: 0
+            val productName = backStackEntry.arguments?.getString("productName") ?: ""
+
+            AboutWish(
+                navController = navController,
+                codeList = codeList,
+                productID = productID,
+                productName = productName
+            )
+        }
     }
 }

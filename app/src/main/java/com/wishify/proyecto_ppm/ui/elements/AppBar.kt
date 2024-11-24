@@ -5,6 +5,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -46,7 +50,7 @@ fun topNavBar(navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp)
+            .height(60.dp)
     ) {
         TopAppBar(
             title = { },
@@ -104,5 +108,86 @@ fun SearchingBar() {
                 .weight(1f)
                 .padding(16.dp)
         )
+    }
+}
+
+// barra para buscar
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchingBar(
+    searchText: String,
+    onSearchTextChange: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .height(50.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = { }) {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = "Search Icon",
+                tint = Color.Black,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        TextField(
+            value = searchText,
+            onValueChange = { onSearchTextChange(it) },
+            placeholder = {
+                Text(
+                    text = "Search by list name",
+                    color = Color.Gray
+                )
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White
+            ),
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp)
+        )
+    }
+}
+
+// guest searching bar
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchingBarGuest(onSearch: (String) -> Unit) {
+    var text by remember { mutableStateOf("") }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .height(50.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            placeholder = {
+                Text(
+                    text = "Enter list code",
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Start
+                )
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White
+            ),
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp)
+        )
+        Button(
+            onClick = { onSearch(text) },
+            modifier = Modifier.height(50.dp)
+        ) {
+            Text("Search")
+        }
     }
 }

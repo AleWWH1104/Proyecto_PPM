@@ -34,7 +34,6 @@ fun iconButtons(icon: ImageVector, @StringRes texto: Int, onClick: () -> Unit){
         Text(text=  stringResource(id = texto), color = Color.White)
     }
 }
-
 @Composable
 fun LargeButtons(@StringRes texto: Int, onClick: () -> Unit, buttonColor: Color, textColor: Color){
     Button(

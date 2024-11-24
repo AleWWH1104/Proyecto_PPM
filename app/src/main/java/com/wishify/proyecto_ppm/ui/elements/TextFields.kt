@@ -34,7 +34,6 @@ fun LargeTextField(){
             .height(100.dp)
     )
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun smallTexField(){
@@ -54,7 +53,6 @@ fun smallTexField(){
             .padding(vertical = 16.dp)
     )
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun smallTexField(
@@ -123,4 +121,3 @@ fun smallTexFieldSignUp(
             .padding(vertical = 16.dp)
     )
 }
-

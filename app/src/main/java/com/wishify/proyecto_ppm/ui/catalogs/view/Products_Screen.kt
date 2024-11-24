@@ -23,11 +23,10 @@ import com.wishify.proyecto_ppm.ui.elements.topNavBar
 import androidx.compose.runtime.livedata.observeAsState
 
 @Composable
-fun ProductsByCategory(categoryID: Int, codeList: String, navController: NavController, viewModel: CategoryViewModel = viewModel()) {
+fun ProductsByCategory(categoryID: Int, titleCategory:String, codeList: String, navController: NavController, viewModel: CategoryViewModel= viewModel()){
 
     println("Esta en ProductsByCategory")
-    println("categoryID: $categoryID, codeList: $codeList")
-
+    println("categoryID: $categoryID, codeList: $codeList, titleCategory $titleCategory" )
     val categoryFilter by viewModel.products.observeAsState(null)
 
     LaunchedEffect(Unit) {
@@ -51,7 +50,7 @@ fun ProductsByCategory(categoryID: Int, codeList: String, navController: NavCont
                 horizontalAlignment = Alignment.CenterHorizontally,
             ){
                 Text(
-                    text = "category",
+                    text = codeList,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 35.sp, fontWeight = FontWeight.Bold),
                     color = Color(0xFFb2422d),
                     textAlign = TextAlign.Center
@@ -62,7 +61,7 @@ fun ProductsByCategory(categoryID: Int, codeList: String, navController: NavCont
                 ){
                     categoryFilter?.let {
                         items(it){ product ->
-                            ProductCard(navController = navController, product = product, codeList = codeList)
+                            ProductCard(navController = navController, product = product, codeList = titleCategory)
                         }
                     }
                 }

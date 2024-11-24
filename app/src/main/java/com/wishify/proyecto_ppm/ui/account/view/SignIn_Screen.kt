@@ -8,14 +8,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,22 +20,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
-import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignIn
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
+import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignIn
 
 @Composable
 fun SignInScreen(navController: NavController) {
+
     val auth = FirebaseAuth.getInstance()
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val context = LocalContext.current // Obtén el contexto para usar con Toast
     println("al iniciar Email: ${email.value}, Password: ${password.value}")
-
 
     fun tryLogIn() {
         println("tryLogIn called")
@@ -69,8 +68,6 @@ fun SignInScreen(navController: NavController) {
             ).show()
         }
     }
-
-
     Scaffold(
         topBar = { topNavBar(navController = navController) }
     ) { paddingValues ->
@@ -132,7 +129,7 @@ fun SignInScreen(navController: NavController) {
                         println(" en el boton Email: ${email.value}, Password: ${password.value}")
 
                         tryLogIn()
-                              },
+                    },
                     buttonColor = Color(0xFFfef0e1),
                     textColor = Color(0xFFb2422d),
                     enabled = email.value.isNotEmpty() && password.value.isNotEmpty()
@@ -148,7 +145,6 @@ fun SignInScreen(navController: NavController) {
         }
     }
 }
-
 
 
 

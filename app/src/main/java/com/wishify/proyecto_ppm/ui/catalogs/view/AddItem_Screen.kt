@@ -98,7 +98,7 @@ fun AddItem(navController: NavController = rememberNavController(), codeList: St
             "itemListCategID", FieldValue.arrayUnion(categoryID_Cicle.value),
             "itemListProdID", FieldValue.arrayUnion(productID)
         ).addOnSuccessListener {
-            println("Producto agregado exitosamente.")
+            println("Producto agregado exitosamente. en el anterior")
             navController.navigate(NavigationState.AllLists.route) // Navegar después de éxito
         }.addOnFailureListener { e ->
             println("Error al agregar el producto: ${e.message}")

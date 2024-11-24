@@ -27,8 +27,12 @@ import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
+import com.google.firebase.auth.FirebaseAuth
+
 @Composable
 fun UserAccount(navController: NavController){
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
     Scaffold(
         topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
@@ -63,12 +67,12 @@ fun UserAccount(navController: NavController){
                     contentDescription = "user pic",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .size(300.dp)
+                        .size(200.dp)
                         .align(Alignment.End)
                         .padding(vertical = 0.dp)
                 )
                 Text(
-                    text = "Username\n",
+                    text = "${currentUser?.email} \n",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontSize = 20.sp
                     ),
@@ -81,15 +85,17 @@ fun UserAccount(navController: NavController){
                     texto = R.string.signOut,
                     onClick = { navController.navigate(NavigationState.Home.route) },
                     buttonColor = Color(0xFFb2422d),
-                    textColor = Color(0xFFfef0e1)
+                    textColor = Color(0xFFfef0e1),
+                    enabled = true
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                LargeButtons(
-                    texto = R.string.DeleteAccount,
-                    onClick = { navController.navigate(NavigationState.Home.route) },
-                    buttonColor = Color(0xFFb2422d),
-                    textColor = Color(0xFFfef0e1)
-                )
+                //LargeButtons(
+                //    texto = R.string.DeleteAccount,
+                //    onClick = { navController.navigate(NavigationState.Home.route) },
+                //    buttonColor = Color(0xFFb2422d),
+                //    textColor = Color(0xFFfef0e1),
+                //   enabled = true
+                //)
             }
         }
     }

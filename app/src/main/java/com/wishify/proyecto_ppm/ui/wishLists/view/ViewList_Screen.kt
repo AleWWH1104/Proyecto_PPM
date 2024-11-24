@@ -45,6 +45,8 @@ data class ListData2(
 fun ViewList(navController: NavController, codeList: String) {
 
     println("Esta en viewList")
+    println("$codeList, El tipo de dato de codelist en VIEWLIST es:" )
+    println(codeList::class.simpleName)
 
     val db = FirebaseFirestore.getInstance()
 
@@ -104,10 +106,6 @@ fun ViewList(navController: NavController, codeList: String) {
             isLoading = false
         }
     }
-
-
-
-
 
     println("itemListProdID: ")
     println(itemListProdID)
@@ -198,4 +196,3 @@ fun ViewList(navController: NavController, codeList: String) {
         }
     }
 }
-

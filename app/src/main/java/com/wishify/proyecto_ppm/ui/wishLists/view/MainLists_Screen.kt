@@ -7,30 +7,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.wishify.proyecto_ppm.R
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.wishify.proyecto_ppm.ui.elements.AppBar
+import com.wishify.proyecto_ppm.ui.elements.Banner
+import com.wishify.proyecto_ppm.ui.elements.SearchingBar
+import com.wishify.proyecto_ppm.ui.elements.topNavBar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.LineHeightStyle
-import androidx.compose.ui.tooling.preview.Preview
-import com.wishify.proyecto_ppm.R
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.wishify.proyecto_ppm.ui.elements.AppBar
-import com.wishify.proyecto_ppm.ui.elements.Banner
-import com.wishify.proyecto_ppm.ui.elements.SearchingBar
-import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 data class ListData(
     val listNameP: String = "",
     val eventP: String = "",
-    val codeList: String = ""
+    val codeList: String = "",
+    val imageRes: Int = R.drawable.img
 )
 
 @Composable
@@ -44,9 +43,20 @@ fun MainLists(navController: NavController) {
     var lists by remember { mutableStateOf<List<ListData>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
-    var tempCodeList by remember { mutableStateOf("")}
+    var tempCodeList by remember { mutableStateOf("") }
 
-    // Obtener los datos al entrar en la pantalla
+    // para buscar por barra
+    var searchText by remember { mutableStateOf("") }
+    var filteredLists by remember { mutableStateOf<List<ListData>>(emptyList()) }
+    // Actualizar listas filtradas al cambiar el texto de búsqueda
+    LaunchedEffect(searchText, lists) {
+        filteredLists = if (searchText.isEmpty()) {
+            lists
+        } else {
+            lists.filter { it.listNameP.contains(searchText, ignoreCase = true) }
+        }
+    }
+
     LaunchedEffect(Unit) {
         isLoading = true
         if (uid != null) {
@@ -66,6 +76,7 @@ fun MainLists(navController: NavController) {
                             .addOnSuccessListener { listDocument ->
                                 val listNameP = listDocument.getString("listNameP") ?: ""
                                 val eventP = listDocument.getString("EventP") ?: ""
+                                val imageRes = listDocument.getLong("ImageRes")?.toInt() ?: R.drawable.img
 
                                 tempCodeList = codeList
 
@@ -74,8 +85,7 @@ fun MainLists(navController: NavController) {
                                 println("$codeList, El tipo de dato de codelist en mainlist es:" )
                                 println(codeList::class.simpleName)
 
-                                fetchedLists.add(ListData(listNameP = listNameP, eventP = eventP, codeList = codeList))
-
+                                fetchedLists.add(ListData(listNameP = listNameP, eventP = eventP, codeList = codeList, imageRes = imageRes))
 
                                 // Actualizar el estado con las listas obtenidas
                                 lists = fetchedLists.toList()
@@ -97,11 +107,10 @@ fun MainLists(navController: NavController) {
         }
     }
 
-    // Composición UI
     Scaffold(
         topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
-    ) { paddingValues ->
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -109,33 +118,28 @@ fun MainLists(navController: NavController) {
                 .padding(paddingValues)
         ) {
             Banner(texto = R.string.slogan)
-            SearchingBar()
+            SearchingBar(
+                searchText = searchText,
+                onSearchTextChange = { searchText = it }
+            )
 
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(Alignment.Center)
-                )
-            } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(lists) { list ->
-                        ListCard(
-                            nameList = list.listNameP,
-                            event = list.eventP,
-                            codeList = list.codeList,
-                            imagen = painterResource(id = R.drawable.img),
-                            navController = navController
-                        )
-                    }
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(filteredLists) { list ->
+                    ListCard(
+                        nameList = list.listNameP,
+                        event = list.eventP,
+                        codeList = list.codeList,
+                        imagenRes = list.imageRes,
+                        navController = navController
+                    )
                 }
             }
         }

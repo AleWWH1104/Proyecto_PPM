@@ -6,9 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -63,29 +65,32 @@ fun HomeScreen(navController: NavController) {
                     texto = R.string.signIn,
                     onClick = { navController.navigate(NavigationState.SignIn.route) },
                     buttonColor = Color(0xFFb2422d),
-                    textColor = Color.White
+                    textColor = Color.White,
+                    enabled = true
                 )
                 Spacer(modifier = Modifier.padding(8.dp))
                 LargeButtons(
                     texto = R.string.signUp,
                     onClick = { navController.navigate(NavigationState.SignUp.route)},
                     buttonColor = Color.White,
-                    textColor = Color(0xFFb2422d)
+                    textColor = Color(0xFFb2422d),
+                    enabled = true
                 )
                 Spacer(modifier = Modifier.padding(16.dp))
-                Text(
+                ClickableText(
                     text = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
                                 color = Color(0xFFb2422d),
-                                fontStyle = FontStyle.Italic, // Cursiva
-                                textDecoration = TextDecoration.Underline // Subrayado
+                                fontStyle = FontStyle.Italic,
+                                textDecoration = TextDecoration.Underline
                             )
                         ) {
-                            append("Continue as a Guest")
+                            append(stringResource(id = R.string.guest))
                         }
                     },
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.titleSmall,
+                    onClick = {navController.navigate(NavigationState.Guest.route)}
                 )
             }
             Image(

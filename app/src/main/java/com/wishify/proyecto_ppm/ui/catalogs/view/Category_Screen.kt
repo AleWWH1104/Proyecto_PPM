@@ -29,12 +29,12 @@ import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 
 @Composable
-fun Categories(navController: NavController, codeList: String, viewModel: CategoryViewModel = viewModel()) {
-
-    println("Esta en CategoryScreen con codeList: $codeList")
-
+fun Categories(navController: NavController,codeList: String, viewModel: CategoryViewModel= viewModel()) {
     val categories = viewModel.categories.observeAsState(initial = emptyList())
     val isLoading = viewModel.isLoading.observeAsState(initial = false)
+
+    println("$codeList, El tipo de dato de codelist en CATEGORY_SCREEN es:" )
+    println(codeList::class.simpleName)
 
     LaunchedEffect(Unit) {
         viewModel.fetchCategories()
@@ -60,7 +60,7 @@ fun Categories(navController: NavController, codeList: String, viewModel: Catego
                 if (isLoading.value) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                 } else {
-                    Text(text = stringResource(id = R.string.typesProductos))
+                    Text(text = stringResource(id = R.string.typesProductos), color = Color.Black)
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier
@@ -70,7 +70,7 @@ fun Categories(navController: NavController, codeList: String, viewModel: Catego
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(categories.value) { category ->
-                            CategoryCard(category, codeList, navController)
+                            CategoryCard(category,codeList, navController)
                         }
                     }
                 }

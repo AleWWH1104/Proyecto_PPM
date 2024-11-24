@@ -17,25 +17,23 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.smallTexField
-import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignIn
 import com.wishify.proyecto_ppm.ui.elements.smallTexFieldSignUp
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 @Composable
 fun SignUpScreen(navController: NavController) {
-
     // Estados para Email y Password
     val auth = FirebaseAuth.getInstance()
     val email = remember { mutableStateOf("") }
@@ -129,7 +127,7 @@ fun SignUpScreen(navController: NavController) {
                 Text(
                     text = stringResource(id = R.string.createAccount),
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 45.sp,
+                        fontSize = 35.sp,
                         fontWeight = FontWeight.Bold
                     ), color = Color(0xFFb2422d),
                 )
@@ -180,7 +178,6 @@ fun SignUpScreen(navController: NavController) {
         }
     }
 }
-
 
 
 

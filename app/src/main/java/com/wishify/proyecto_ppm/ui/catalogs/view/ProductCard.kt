@@ -9,9 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
@@ -19,10 +21,7 @@ import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
 
 @Composable
-fun ProductCard(navController: NavController, product: WishProduct, codeList: String) {
-    println("Product de productCard: $product")
-    println("Product name de productCard: ${product.nameItem}")
-    println("Product id de productCard: ${product.itemID}")
+fun ProductCard(navController: NavController, product: WishProduct, codeList: String){
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,25 +33,29 @@ fun ProductCard(navController: NavController, product: WishProduct, codeList: St
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(80.dp)
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
-            Image(
-                painter = rememberAsyncImagePainter(product.imageUrl),
-                contentDescription = "products",
+            AsyncImage(
+                model = product.imageUrl,
+                contentDescription = "Product Image",
                 modifier = Modifier
-                    .fillMaxWidth(0.2f)
-                    .padding(end = 8.dp)
+                    .fillMaxWidth()
+                    .weight(0.3f)
+                    .fillMaxHeight()
+                    .padding(end = 8.dp),
+                contentScale = ContentScale.Crop
             )
             Text(
                 text= product.nameItem,
+                color = Color.Black,
+                fontSize = 10.sp,
+                lineHeight = 12.sp,
                 modifier = Modifier
-                    .weight(0.8f)
+                    .weight(0.7f)
             )
-            smallButtons(texto = R.string.seeBtn, onClick = {
-                // Navegar a AddItem pasando codeList como parámetro
-                navController.navigate(NavigationState.addDetail.createRoute(codeList, product))
-            })
+            smallButtons(texto = R.string.seeBtn, onClick = {navController.navigate(NavigationState.addDetail.createRoute(codeList, product))})
         }
     }
 }
