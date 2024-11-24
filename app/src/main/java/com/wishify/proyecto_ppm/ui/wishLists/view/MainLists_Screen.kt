@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.google.firebase.firestore.FieldValue
 
 data class ListData(
     val listNameP: String = "",
@@ -31,6 +32,31 @@ data class ListData(
     val codeList: String = "",
     val imageRes: Int = R.drawable.img
 )
+
+fun deleteList(codeList: String, uid: String, onCompletion: (Boolean, String?) -> Unit) {
+    val db = FirebaseFirestore.getInstance()
+
+    // Eliminar de "ListasP"
+    db.collection("ListasP").document("ListaP")
+        .collection("ListaP").document(codeList)
+        .delete()
+        .addOnSuccessListener {
+            // Actualizar "UsuariosP"
+            db.collection("UsuariosP").document("UsuarioP")
+                .collection("UsuarioP").document(uid)
+                .update("CodeList", FieldValue.arrayRemove(codeList))
+                .addOnSuccessListener {
+                    onCompletion(true, null) // Éxito
+                }
+                .addOnFailureListener { e ->
+                    onCompletion(false, "Error al actualizar UsuariosP: ${e.message}")
+                }
+        }
+        .addOnFailureListener { e ->
+            onCompletion(false, "Error al eliminar de ListasP: ${e.message}")
+        }
+}
+
 
 @Composable
 fun MainLists(navController: NavController) {
@@ -138,10 +164,16 @@ fun MainLists(navController: NavController) {
                         event = list.eventP,
                         codeList = list.codeList,
                         imagenRes = list.imageRes,
-                        navController = navController
+                        navController = navController,
+                        onListChange = { codeListToRemove ->
+                            // Filtrar la lista actual eliminando la que coincide con codeListToRemove
+                            lists = lists.filter { it.codeList != codeListToRemove }
+                        }
                     )
                 }
             }
+
+
         }
     }
 }

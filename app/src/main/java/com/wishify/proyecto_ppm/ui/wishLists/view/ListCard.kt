@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.ui.elements.smallButtons
@@ -26,7 +27,8 @@ fun ListCard(
     event: String,
     codeList: String,
     imagenRes: Int,
-    navController: NavController
+    navController: NavController,
+    onListChange: (String) -> Unit // Callback para actualizar las listas basado en codeList
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -60,16 +62,33 @@ fun ListCard(
                 style = MaterialTheme.typography.titleSmall,
             )
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                IconButton(onClick = {}) { //Acción pendiente
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = "iTrash", tint = Color(0xFFb2422d))
+            ) {
+                IconButton(onClick = {
+                    // Lógica para eliminar la lista
+                    val currentUid = FirebaseAuth.getInstance().currentUser?.uid
+                    if (currentUid != null && codeList.isNotEmpty()) {
+                        deleteList(codeList, currentUid) { success, error ->
+                            if (success) {
+                                // Llama al callback para indicar que esta lista debe ser eliminada
+                                onListChange(codeList)
+                            } else {
+                                println("Error al eliminar la lista: $error")
+                            }
+                        }
+                    } else {
+                        println("Error: UID o codeList inválidos.")
+                    }
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Eliminar",
+                        tint = Color(0xFFb2422d)
+                    )
                 }
                 IconButton(
                     onClick = {
-                        // Navegar a MyList pasando el valor de codeList
                         if (codeList.isNotEmpty()) {
                             navController.navigate("MyList/$codeList")
                         } else {
@@ -77,12 +96,17 @@ fun ListCard(
                         }
                     }
                 ) {
-                    Icon(imageVector = Icons.Filled.Info, contentDescription = "Información", tint = Color(0xFFb2422d))
+                    Icon(
+                        imageVector = Icons.Filled.Info,
+                        contentDescription = "Información",
+                        tint = Color(0xFFb2422d)
+                    )
                 }
             }
         }
     }
 }
+
 
 
 @Composable
