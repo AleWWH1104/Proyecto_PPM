@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.navigation.NavigationState
@@ -32,6 +33,7 @@ import com.wishify.proyecto_ppm.networking.WishWebService
 import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 import com.wishify.proyecto_ppm.ui.wishLists.view.ItemCard
+import com.wishify.proyecto_ppm.ui.wishLists.view.ItemCardGuestList
 
 @Composable
 fun ViewGuestList(navController: NavController, codeList: String) {
@@ -146,9 +148,15 @@ fun ViewGuestList(navController: NavController, codeList: String) {
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(productList) { product ->
-                        ItemCard(
+                        val imagePainter = rememberAsyncImagePainter(
+                            model = product.imageUrl,
+                            placeholder = painterResource(id = R.drawable.img), // Placeholder mientras carga
+                            error = painterResource(id = R.drawable.img) // Imagen de error
+                        )
+
+                        ItemCardGuestList(
                             nameItem = product.nameItem,
-                            imageItem = painterResource(id = R.drawable.img),
+                            imagePainter = imagePainter,
                             icono = Icons.Filled.Info,
                             onClick = {
                                 val route = NavigationState.AboutWish.createRoute(
@@ -159,7 +167,6 @@ fun ViewGuestList(navController: NavController, codeList: String) {
                                 navController.navigate(route)
                             }
                         )
-
                     }
                 }
             }
