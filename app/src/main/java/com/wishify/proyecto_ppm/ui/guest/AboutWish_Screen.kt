@@ -69,25 +69,20 @@ fun AboutWish(
             .collection("ListaP").document(codeList)
 
         documentRef.get().addOnSuccessListener { documentSnapshot ->
-            val itemListProdID = documentSnapshot.get("itemListProdID") as? MutableList<Int>
-            val itemListCategID = documentSnapshot.get("itemListCategID") as? MutableList<Int>
-
+            val itemListProdID = (documentSnapshot.get("itemListProdID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
+            val itemListCategID = (documentSnapshot.get("itemListCategID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
 
             println("Ln75, itemListProdID: $itemListProdID, itemListCategID: $itemListCategID")
 
             if (itemListProdID != null && itemListCategID != null) {
-                // Encontrar el índice del producto a eliminar
                 val indexToRemove = itemListProdID.indexOf(productID)
-
                 println("ProductID: $productID")
-                println("index to remove, $indexToRemove")
+                println("Índice a eliminar: $indexToRemove")
 
                 if (indexToRemove != -1) {
-                    // Eliminar el producto y su categoría correspondientes
                     itemListProdID.removeAt(indexToRemove)
                     itemListCategID.removeAt(indexToRemove)
 
-                    // Actualizar Firestore
                     documentRef.update(
                         mapOf(
                             "itemListProdID" to itemListProdID,
@@ -95,7 +90,7 @@ fun AboutWish(
                         )
                     ).addOnSuccessListener {
                         println("Producto y categoría eliminados correctamente.")
-                        navController.navigateUp() // Navegar de regreso
+                        navController.navigateUp()
                     }.addOnFailureListener { e ->
                         println("Error al actualizar Firestore: ${e.message}")
                     }
@@ -108,6 +103,7 @@ fun AboutWish(
         }.addOnFailureListener { e ->
             println("Error al obtener el documento: ${e.message}")
         }
+
     }
 
     Scaffold(
