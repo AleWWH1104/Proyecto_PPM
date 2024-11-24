@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,51 +30,48 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wishify.proyecto_ppm.R
 
 @Composable
-fun ItemCard(nameItem: String, imageItem: Painter, icono: ImageVector, onClick: () -> Unit) {
+fun ItemCard(
+    nameItem: String,
+    imageItem: Painter,
+    icono: ImageVector,
+    onClick: () -> Unit
+) {
     Card(
-        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
-            .width(180.dp)
-            .height(130.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+            .fillMaxWidth()
+            .padding(8.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.img),
-            contentDescription = "",
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.5f),
-            contentScale = ContentScale.Crop
-        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(0.5f)
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
+            Image(
+                painter = imageItem,
+                contentDescription = "Imagen del producto",
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Text(
-                    text = nameItem,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                IconButton(onClick = onClick) { //Accion pendiente
-                    Icon(imageVector = icono, contentDescription = "iTrash", tint = Color(0xFFb2422d))
-                }
+                    .height(120.dp)
+                    .width(120.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = nameItem,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center
+            )
+            IconButton(onClick = onClick) {
+                Icon(imageVector = icono, contentDescription = null)
             }
         }
     }
 }
+
 
 //itemCard para guest view list
 @Composable

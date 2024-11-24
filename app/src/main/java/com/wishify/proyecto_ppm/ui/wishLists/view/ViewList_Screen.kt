@@ -36,6 +36,9 @@ import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.iconButtons
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
+import coil.compose.rememberAsyncImagePainter
+
+
 data class ListData2(
     val listNameP: String = "",
     val eventP: String = ""
@@ -232,7 +235,7 @@ fun ViewList(navController: NavController, codeList: String) {
                         items(productList) { product ->
                             ItemCard(
                                 nameItem = product.nameItem,
-                                imageItem = painterResource(id = R.drawable.img),
+                                imageItem = rememberAsyncImagePainter(model = product.imageUrl),
                                 icono = Icons.Filled.Delete,
                                 onClick = {
                                     removeItemFromDatabase(navController, db, codeList, product.itemID)
@@ -240,6 +243,7 @@ fun ViewList(navController: NavController, codeList: String) {
                             )
                         }
                     }
+
                 }
             }
         }

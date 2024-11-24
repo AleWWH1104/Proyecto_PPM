@@ -30,6 +30,8 @@ import com.wishify.proyecto_ppm.ui.elements.topNavBar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FieldValue
 
+
+
 @Composable
 fun AboutWish(
     navController: NavController,
