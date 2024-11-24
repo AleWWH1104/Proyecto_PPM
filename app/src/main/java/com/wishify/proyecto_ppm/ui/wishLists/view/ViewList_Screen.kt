@@ -113,6 +113,53 @@ fun ViewList(navController: NavController, codeList: String) {
     println("all prod productList: ")
     println(productList)
 
+    fun removeItemFromDatabase(
+        navController: NavController,
+        firestore: FirebaseFirestore,
+        codeList: String,
+        productID: Int
+    ) {
+        val documentRef = firestore.collection("ListasP").document("ListaP")
+            .collection("ListaP").document(codeList)
+
+        documentRef.get().addOnSuccessListener { documentSnapshot ->
+            val itemListProdID = (documentSnapshot.get("itemListProdID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
+            val itemListCategID = (documentSnapshot.get("itemListCategID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
+
+            println("Ln75, itemListProdID: $itemListProdID, itemListCategID: $itemListCategID")
+
+            if (itemListProdID != null && itemListCategID != null) {
+                val indexToRemove = itemListProdID.indexOf(productID)
+                println("ProductID: $productID")
+                println("Índice a eliminar: $indexToRemove")
+
+                if (indexToRemove != -1) {
+                    itemListProdID.removeAt(indexToRemove)
+                    itemListCategID.removeAt(indexToRemove)
+
+                    documentRef.update(
+                        mapOf(
+                            "itemListProdID" to itemListProdID,
+                            "itemListCategID" to itemListCategID
+                        )
+                    ).addOnSuccessListener {
+                        println("Producto y categoría eliminados correctamente.")
+                        navController.navigateUp()
+                    }.addOnFailureListener { e ->
+                        println("Error al actualizar Firestore: ${e.message}")
+                    }
+                } else {
+                    println("Producto no encontrado en la lista.")
+                }
+            } else {
+                println("No se pudieron obtener los arrays de Firestore.")
+            }
+        }.addOnFailureListener { e ->
+            println("Error al obtener el documento: ${e.message}")
+        }
+    }
+
+
     // Interfaz
     Scaffold(
         topBar = { topNavBar(navController = navController) },
@@ -187,7 +234,9 @@ fun ViewList(navController: NavController, codeList: String) {
                                 nameItem = product.nameItem,
                                 imageItem = painterResource(id = R.drawable.img),
                                 icono = Icons.Filled.Delete,
-                                onClick = { /* Acción para eliminar */ }
+                                onClick = {
+                                    removeItemFromDatabase(navController, db, codeList, product.itemID)
+                                }
                             )
                         }
                     }
