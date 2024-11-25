@@ -16,6 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,131 +38,26 @@ import com.wishify.proyecto_ppm.ui.elements.iconButtons
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 import coil.compose.rememberAsyncImagePainter
-
-
-data class ListData2(
-    val listNameP: String = "",
-    val eventP: String = ""
-)
+import com.wishify.proyecto_ppm.ui.wishLists.repository.ViewListRepository
+import com.wishify.proyecto_ppm.ui.wishLists.viewmodel.ViewListViewModel
 
 @Composable
-fun ViewList(navController: NavController, codeList: String) {
+fun ViewList(
+    navController: NavController,
+    codeList: String
+) {
 
-    println("Esta en viewList")
-    println("$codeList, El tipo de dato de codelist en VIEWLIST es:" )
-    println(codeList::class.simpleName)
+    val repository = remember { ViewListRepository() }
+    val viewModel = remember { ViewListViewModel(repository) }
+    val listNameP by viewModel.listNameP.collectAsState()
+    val eventP by viewModel.eventP.collectAsState()
+    val productList by viewModel.productList.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
-    val db = FirebaseFirestore.getInstance()
-
-    // Estados para datos
-    var listNameP by remember { mutableStateOf("") }
-    var eventP by remember { mutableStateOf("") }
-    var itemListProdID by remember { mutableStateOf<List<Int>>(emptyList()) }
-    var productList by remember { mutableStateOf<List<WishProduct>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(true) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    // Obtener datos de Firebase
     LaunchedEffect(codeList) {
-        db.collection("ListasP").document("ListaP")
-            .collection("ListaP").document(codeList)
-            .get()
-            .addOnSuccessListener { document ->
-                listNameP = document.getString("listNameP") ?: ""
-                eventP = document.getString("EventP") ?: ""
-                itemListProdID = (document.get("itemListProdID") as? List<Long>)?.map { it.toInt() } ?: emptyList()
-            }
-            .addOnFailureListener {
-                errorMessage = "Error al obtener datos de Firestore: ${it.message}"
-            }
+        viewModel.loadData(codeList)
     }
-
-    // Obtener productos desde la API filtrados por `itemListProdID`
-    LaunchedEffect(itemListProdID) {
-        if (itemListProdID.isNotEmpty()) {
-            try {
-                val wishWebService = WishWebService()
-                val allProducts = mutableListOf<WishProduct>()
-
-                // Obtener categorías de la API (puede ajustarse si ya están disponibles)
-                val categories = wishWebService.getWishCategories()
-
-                for (category in categories) {
-                    // Obtener productos por categoría
-                    val productsFromApi = wishWebService.getCategoryFilter(category.id)
-
-                    // Filtrar productos cuyo itemID coincida con los de itemListProdID
-                    val matchingProducts = productsFromApi.filter { it.itemID in itemListProdID }
-
-                    // Agregar los productos coincidentes a la lista acumulada
-                    allProducts.addAll(matchingProducts)
-                }
-
-                // Actualizar productList con los productos filtrados
-                productList = allProducts
-                println("Lista final de productos: $productList") // Log de depuración
-                isLoading = false
-            } catch (e: Exception) {
-                errorMessage = "Error al obtener productos de la API: ${e.message}"
-                isLoading = false
-            }
-        } else {
-            isLoading = false
-        }
-    }
-
-    println("itemListProdID: ")
-    println(itemListProdID)
-
-    println("all prod productList: ")
-    println(productList)
-
-    fun removeItemFromDatabase(
-        navController: NavController,
-        firestore: FirebaseFirestore,
-        codeList: String,
-        productID: Int
-    ) {
-        val documentRef = firestore.collection("ListasP").document("ListaP")
-            .collection("ListaP").document(codeList)
-
-        documentRef.get().addOnSuccessListener { documentSnapshot ->
-            val itemListProdID = (documentSnapshot.get("itemListProdID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
-            val itemListCategID = (documentSnapshot.get("itemListCategID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
-
-            println("Ln75, itemListProdID: $itemListProdID, itemListCategID: $itemListCategID")
-
-            if (itemListProdID != null && itemListCategID != null) {
-                val indexToRemove = itemListProdID.indexOf(productID)
-                println("ProductID: $productID")
-                println("Índice a eliminar: $indexToRemove")
-
-                if (indexToRemove != -1) {
-                    itemListProdID.removeAt(indexToRemove)
-                    itemListCategID.removeAt(indexToRemove)
-
-                    documentRef.update(
-                        mapOf(
-                            "itemListProdID" to itemListProdID,
-                            "itemListCategID" to itemListCategID
-                        )
-                    ).addOnSuccessListener {
-                        println("Producto y categoría eliminados correctamente.")
-                        navController.navigateUp()
-                    }.addOnFailureListener { e ->
-                        println("Error al actualizar Firestore: ${e.message}")
-                    }
-                } else {
-                    println("Producto no encontrado en la lista.")
-                }
-            } else {
-                println("No se pudieron obtener los arrays de Firestore.")
-            }
-        }.addOnFailureListener { e ->
-            println("Error al obtener el documento: ${e.message}")
-        }
-    }
-
 
     // Interfaz
     Scaffold(
@@ -238,7 +134,7 @@ fun ViewList(navController: NavController, codeList: String) {
                                 imageItem = rememberAsyncImagePainter(model = product.imageUrl),
                                 icono = Icons.Filled.Delete,
                                 onClick = {
-                                    removeItemFromDatabase(navController, db, codeList, product.itemID)
+                                    viewModel.removeItem(codeList, product.itemID)
                                 }
                             )
                         }
