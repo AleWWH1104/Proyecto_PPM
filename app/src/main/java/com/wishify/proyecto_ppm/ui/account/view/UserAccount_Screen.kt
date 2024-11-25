@@ -89,13 +89,6 @@ fun UserAccount(navController: NavController){
                     enabled = true
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                //LargeButtons(
-                //    texto = R.string.DeleteAccount,
-                //    onClick = { navController.navigate(NavigationState.Home.route) },
-                //    buttonColor = Color(0xFFb2422d),
-                //    textColor = Color(0xFFfef0e1),
-                //   enabled = true
-                //)
             }
         }
     }

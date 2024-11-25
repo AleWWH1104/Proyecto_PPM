@@ -31,80 +31,20 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+
+import com.wishify.proyecto_ppm.ui.account.repository.SignUpRepository
+import com.wishify.proyecto_ppm.ui.account.viewmodel.SignUpViewModel
 
 @Composable
 fun SignUpScreen(navController: NavController) {
-    // Estados para Email y Password
+    // Manual Dependency Injection
     val auth = FirebaseAuth.getInstance()
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val isLoading = remember { mutableStateOf(false) } // Para manejar estado de carga
-    println(" al iniciar sign up Email: ${email.value}, Password: ${password.value}")
+    val firestore = FirebaseFirestore.getInstance()
+    val repository = remember { SignUpRepository(auth, firestore) }
+    val viewModel = remember { SignUpViewModel(repository) }
 
-    // funcion para agregar datos de UID y CodeList a db
-    fun addUID(uid: String) {
-        val db = FirebaseFirestore.getInstance()
-
-        // Datos iniciales del documento
-        val userData = hashMapOf(
-            "UID" to uid,
-            "CodeList" to listOf("0") // Inicializa CodeList con "0" y el UID
-        )
-
-        // Agregar datos en la colección UsuariosP -> Subcolección UsuarioP
-        db.collection("UsuariosP").document("UsuarioP")
-            .collection("UsuarioP").document(uid)
-            .set(userData)
-            .addOnSuccessListener {
-                println("Usuario agregado exitosamente en Firestore.")
-            }
-            .addOnFailureListener { e ->
-                println("Error al agregar usuario: ${e.message}")
-            }
-    }
-
-
-    // funcion para crear el susuario
-    fun trySignUp() {
-        println(" en trysignup Email: ${email.value}, Password: ${password.value}")
-        if (email.value.isNotEmpty() && password.value.isNotEmpty()) {
-            isLoading.value = true // Indicar que está cargando
-            println(" cuando se deberia craer Email: ${email.value}, Password: ${password.value}")
-            auth.createUserWithEmailAndPassword(email.value, password.value)
-                .addOnCompleteListener { task ->
-                    isLoading.value = false // Resetear estado de carga
-                    if (task.isSuccessful) {
-                        val currentUser = auth.currentUser
-                        val uid = currentUser?.uid ?: return@addOnCompleteListener
-
-                        // Llamar a addUID para agregar el UID a Firestore
-                        addUID(uid)
-
-                        Toast.makeText(
-                            navController.context,
-                            "Account created successfully!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        navController.navigate(NavigationState.AllLists.route)
-                    } else {
-                        // Error durante el registro
-                        println(" No se rsgistro Email: ${email.value}, Password: ${password.value}")
-                        Toast.makeText(
-                            navController.context,
-                            "Sign-up failed: ${task.exception?.localizedMessage ?: "Unknown error"}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-        } else {
-            Toast.makeText(
-                navController.context,
-                "Please fill in all fields.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = { topNavBar(navController = navController) }
@@ -146,9 +86,9 @@ fun SignUpScreen(navController: NavController) {
                     color = Color.White
                 )
                 smallTexFieldSignUp(
-                    text = email.value,
-                    onTextChange = { email.value = it } // Actualiza el estado
-                ) // Campo de correo
+                    text = viewModel.email.value,
+                    onTextChange = { viewModel.email.value = it }
+                )
                 Spacer(modifier = Modifier.padding(16.dp))
                 Text(
                     text = "Password",
@@ -156,16 +96,34 @@ fun SignUpScreen(navController: NavController) {
                     color = Color.White
                 )
                 smallTexFieldSignUp(
-                    text = password.value,
-                    onTextChange = { password.value = it } // Actualiza el estado
-                )  // Campo de contraseña
+                    text = viewModel.password.value,
+                    onTextChange = { viewModel.password.value = it }
+                )
                 Spacer(modifier = Modifier.padding(16.dp))
                 LargeButtons(
                     texto = R.string.signUp,
-                    onClick = { trySignUp() },
+                    onClick = {
+                        viewModel.trySignUp(
+                            onSuccess = {
+                                Toast.makeText(
+                                    context,
+                                    "Account created successfully!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navController.navigate(NavigationState.AllLists.route)
+                            },
+                            onError = { error ->
+                                Toast.makeText(
+                                    context,
+                                    "Sign-up failed: $error",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        )
+                    },
                     buttonColor = Color(0xFFfef0e1),
                     textColor = Color(0xFFb2422d),
-                    enabled = email.value.isNotEmpty() && password.value.isNotEmpty()
+                    enabled = viewModel.email.value.isNotEmpty() && viewModel.password.value.isNotEmpty()
                 )
             }
             Image(
@@ -178,6 +136,3 @@ fun SignUpScreen(navController: NavController) {
         }
     }
 }
-
-
-
