@@ -8,6 +8,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,6 +25,8 @@ import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.wishify.proyecto_ppm.ui.guest.repository.AboutWishRepository
+import com.wishify.proyecto_ppm.ui.guest.viewmodel.AboutWishViewModel
 
 
 @Composable
@@ -33,73 +36,22 @@ fun AboutWish(
     productID: Int,
     productName: String
 ) {
-    val categoryName = remember { mutableStateOf("Cargando...") }
-    val productImageUrl = remember { mutableStateOf<String?>(null) }
-    val firestore = FirebaseFirestore.getInstance()
-
-    // Lógica para obtener la categoría y URL de imagen
-    LaunchedEffect(productID) {
-        try {
-            val wishWebService = WishWebService() // Crear instancia del servicio
-
-            // Obtener categorías y buscar producto
-            val categories = wishWebService.getWishCategories()
-            for (category in categories) {
-                val products = wishWebService.getCategoryFilter(categoryID = category.id)
-                val product = products.find { it.itemID == productID }
-                if (product != null) {
-                    categoryName.value = category.category
-                    productImageUrl.value = product.imageUrl
-                    break
-                }
-            }
-        } catch (e: Exception) {
-            categoryName.value = "Error al cargar datos"
-            println("Error al buscar la categoría: ${e.message}")
-        }
+    // Inicializa el repositorio y el ViewModel con remember
+    val repository = remember {
+        AboutWishRepository(
+            firestore = FirebaseFirestore.getInstance(),
+            wishWebService = WishWebService()
+        )
     }
+    val viewModel = remember { AboutWishViewModel(repository) }
 
-    // Función para eliminar el producto y su categoría
-    fun removeItemFromDatabase() {
-        val documentRef = firestore.collection("ListasP").document("ListaP")
-            .collection("ListaP").document(codeList)
+    // Observa los estados desde el ViewModel
+    val categoryName by viewModel.categoryName
+    val productImageUrl by viewModel.productImageUrl
 
-        documentRef.get().addOnSuccessListener { documentSnapshot ->
-            val itemListProdID = (documentSnapshot.get("itemListProdID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
-            val itemListCategID = (documentSnapshot.get("itemListCategID") as? List<Number>)?.map { it.toInt() }?.toMutableList()
-
-            println("Ln75, itemListProdID: $itemListProdID, itemListCategID: $itemListCategID")
-
-            if (itemListProdID != null && itemListCategID != null) {
-                val indexToRemove = itemListProdID.indexOf(productID)
-                println("ProductID: $productID")
-                println("Índice a eliminar: $indexToRemove")
-
-                if (indexToRemove != -1) {
-                    itemListProdID.removeAt(indexToRemove)
-                    itemListCategID.removeAt(indexToRemove)
-
-                    documentRef.update(
-                        mapOf(
-                            "itemListProdID" to itemListProdID,
-                            "itemListCategID" to itemListCategID
-                        )
-                    ).addOnSuccessListener {
-                        println("Producto y categoría eliminados correctamente.")
-                        navController.navigateUp()
-                    }.addOnFailureListener { e ->
-                        println("Error al actualizar Firestore: ${e.message}")
-                    }
-                } else {
-                    println("Producto no encontrado en la lista.")
-                }
-            } else {
-                println("No se pudieron obtener los arrays de Firestore.")
-            }
-        }.addOnFailureListener { e ->
-            println("Error al obtener el documento: ${e.message}")
-        }
-
+    // Llama a la lógica inicial en LaunchedEffect
+    LaunchedEffect(productID) {
+        viewModel.fetchCategoryAndImage(productID)
     }
 
     Scaffold(
@@ -120,14 +72,13 @@ fun AboutWish(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    if (!productImageUrl.value.isNullOrEmpty()) {
+                    if (!productImageUrl.isNullOrEmpty()) {
                         Image(
-                            painter = rememberAsyncImagePainter(model = productImageUrl.value),
+                            painter = rememberAsyncImagePainter(model = productImageUrl),
                             contentDescription = "Imagen del producto",
                             modifier = Modifier
                                 .width(250.dp)
@@ -150,14 +101,8 @@ fun AboutWish(
                             .weight(0.5f)
                             .padding(start = 16.dp)
                     ) {
-                        Text(
-                            text = productName,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = categoryName.value,
-                            style = MaterialTheme.typography.titleSmall
-                        )
+                        Text(text = productName, style = MaterialTheme.typography.titleMedium)
+                        Text(text = categoryName, style = MaterialTheme.typography.titleSmall)
                     }
                 }
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -169,7 +114,11 @@ fun AboutWish(
                 Spacer(modifier = Modifier.padding(16.dp))
                 LargeButtons(
                     texto = R.string.reserBtn,
-                    onClick = { removeItemFromDatabase() },
+                    onClick = {
+                        viewModel.removeItemFromDatabase(codeList, productID) {
+                            navController.navigateUp()
+                        }
+                    },
                     buttonColor = Color.White,
                     textColor = Color(0xFFb2422d)
                 )
