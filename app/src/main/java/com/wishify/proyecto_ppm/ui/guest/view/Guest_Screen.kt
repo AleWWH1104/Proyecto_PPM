@@ -1,4 +1,4 @@
-package com.wishify.proyecto_ppm.ui.guest
+package com.wishify.proyecto_ppm.ui.guest.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wishify.proyecto_ppm.R
-import com.wishify.proyecto_ppm.ui.elements.SearchingBar
 import com.wishify.proyecto_ppm.ui.elements.SearchingBarGuest
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 

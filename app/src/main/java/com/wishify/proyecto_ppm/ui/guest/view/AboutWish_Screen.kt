@@ -1,4 +1,4 @@
-package com.wishify.proyecto_ppm.ui.guest
+package com.wishify.proyecto_ppm.ui.guest.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,23 +13,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.wishify.proyecto_ppm.R
 import com.wishify.proyecto_ppm.networking.WishWebService
-import com.wishify.proyecto_ppm.ui.elements.AppBar
 import com.wishify.proyecto_ppm.ui.elements.Banner
 import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FieldValue
-
 
 
 @Composable

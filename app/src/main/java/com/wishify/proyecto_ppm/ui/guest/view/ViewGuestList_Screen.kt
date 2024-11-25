@@ -1,4 +1,4 @@
-package com.wishify.proyecto_ppm.ui.guest
+package com.wishify.proyecto_ppm.ui.guest.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,11 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.wishify.proyecto_ppm.R
@@ -32,60 +31,24 @@ import com.wishify.proyecto_ppm.navigation.NavigationState
 import com.wishify.proyecto_ppm.networking.WishWebService
 import com.wishify.proyecto_ppm.networking.response.WishProduct
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
-import com.wishify.proyecto_ppm.ui.wishLists.view.ItemCard
+import com.wishify.proyecto_ppm.ui.guest.repository.GuestListRepository
+import com.wishify.proyecto_ppm.ui.guest.viewmodel.GuestListViewModel
 import com.wishify.proyecto_ppm.ui.wishLists.view.ItemCardGuestList
 
 @Composable
-fun ViewGuestList(navController: NavController, codeList: String) {
-    val db = FirebaseFirestore.getInstance()
+fun ViewGuestList(navController: NavController, codeList: String){
 
-    // Estados para los datos
-    var listNameP by remember { mutableStateOf("") }
-    var eventP by remember { mutableStateOf("") }
-    var itemListProdID by remember { mutableStateOf<List<Int>>(emptyList()) }
-    var productList by remember { mutableStateOf<List<WishProduct>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(true) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
+    val repository = remember { GuestListRepository() }
+    val viewModel = remember { GuestListViewModel(repository) }
 
-    // Obtener datos de Firebase
+    val listNameP by viewModel.listName.collectAsState()
+    val eventP by viewModel.event.collectAsState()
+    val productList by viewModel.productList.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
     LaunchedEffect(codeList) {
-        db.collection("ListasP").document("ListaP")
-            .collection("ListaP").document(codeList)
-            .get()
-            .addOnSuccessListener { document ->
-                listNameP = document.getString("listNameP") ?: ""
-                eventP = document.getString("EventP") ?: ""
-                itemListProdID = (document.get("itemListProdID") as? List<Long>)?.map { it.toInt() } ?: emptyList()
-            }
-            .addOnFailureListener {
-                errorMessage = "Error al obtener datos de Firestore: ${it.message}"
-            }
-    }
-
-    // Obtener productos desde la API
-    LaunchedEffect(itemListProdID) {
-        if (itemListProdID.isNotEmpty()) {
-            try {
-                val wishWebService = WishWebService()
-                val allProducts = mutableListOf<WishProduct>()
-
-                val categories = wishWebService.getWishCategories()
-
-                for (category in categories) {
-                    val productsFromApi = wishWebService.getCategoryFilter(category.id)
-                    val matchingProducts = productsFromApi.filter { it.itemID in itemListProdID }
-                    allProducts.addAll(matchingProducts)
-                }
-
-                productList = allProducts
-                isLoading = false
-            } catch (e: Exception) {
-                errorMessage = "Error al obtener productos de la API: ${e.message}"
-                isLoading = false
-            }
-        } else {
-            isLoading = false
-        }
+        viewModel.loadGuestList(codeList)
     }
 
     // UI

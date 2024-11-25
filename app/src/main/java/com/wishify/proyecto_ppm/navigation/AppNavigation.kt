@@ -1,7 +1,6 @@
 package com.wishify.proyecto_ppm.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
@@ -10,15 +9,12 @@ import com.wishify.proyecto_ppm.ui.account.view.*
 import com.wishify.proyecto_ppm.ui.catalogs.view.AddItem
 import com.wishify.proyecto_ppm.ui.catalogs.view.Categories
 import com.wishify.proyecto_ppm.ui.catalogs.view.ProductsByCategory
-import com.wishify.proyecto_ppm.ui.guest.AboutWish
-import com.wishify.proyecto_ppm.ui.guest.GuestScreen
+import com.wishify.proyecto_ppm.ui.guest.view.AboutWish
+import com.wishify.proyecto_ppm.ui.guest.view.GuestScreen
 import com.wishify.proyecto_ppm.ui.wishLists.view.AddList
 import com.wishify.proyecto_ppm.ui.wishLists.view.MainLists
 import com.wishify.proyecto_ppm.ui.wishLists.view.ViewList
-import com.wishify.proyecto_ppm.R
-import com.wishify.proyecto_ppm.ui.guest.ViewGuestList
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
+import com.wishify.proyecto_ppm.ui.guest.view.ViewGuestList
 
 @Composable
 fun AppNavigation(navController: NavHostController){
