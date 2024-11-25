@@ -8,6 +8,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -31,34 +33,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import kotlin.random.Random
 
+import com.wishify.proyecto_ppm.ui.wishLists.repository.AddListRepository
+import com.wishify.proyecto_ppm.ui.wishLists.viewmodel.AddListViewModel
+import com.wishify.proyecto_ppm.ui.wishLists.viewmodel.Event
 
 @Composable
 fun AddList(navController: NavController){
-    val firestore = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
 
-    // Estados para el nombre de la lista y el evento seleccionado
-    val listName = remember { mutableStateOf("") }
-    val selectedEvent = remember { mutableStateOf<Event?>(null)  }
+    println("DEBUG Esta en AddList")
 
-    fun generateCodeList(): String {
-        return Random.nextInt(10000, 99999).toString()
-    }
-    fun addCodeListToUser(uid: String, newCodeList: String) {
-        val db = FirebaseFirestore.getInstance()
+    // Inicializamos el repositorio y el ViewModel usando `remember`
+    val repository = remember { AddListRepository() }
+    val viewModel = remember { AddListViewModel(repository) }
 
-        // Actualiza el array CodeList del documento correspondiente al UID
-        db.collection("UsuariosP").document("UsuarioP")
-            .collection("UsuarioP").document(uid)
-            .update("CodeList", FieldValue.arrayUnion(newCodeList))
-            .addOnSuccessListener {
-                println("CodeList agregado exitosamente al usuario con UID: $uid")
-            }
-            .addOnFailureListener { e ->
-                println("Error al agregar CodeList: ${e.message}")
-            }
-    }
+    // Observamos los estados desde el ViewModel
+    val listName by viewModel.listName.collectAsState()
+    val selectedEvent by viewModel.selectedEvent.collectAsState()
 
     // Lista de eventos con sus textos e imágenes
     val events = listOf(
@@ -78,85 +68,49 @@ fun AddList(navController: NavController){
         Event("Otros", R.drawable.gift1),
     )
 
-    // Función para crear la lista en Firestore
-    fun createList() {
-        val codeList = generateCodeList()
-        val selectedEventValue = selectedEvent.value
-
-        if (selectedEventValue != null && listName.value.isNotEmpty()) {
-            val listData = hashMapOf(
-                "CodeList" to codeList,
-                "EventP" to selectedEventValue.text,
-                "ImageRes" to selectedEventValue.imageRes,
-                "itemListCategID" to emptyList<Int>(),
-                "itemListProdID" to emptyList<Int>(),
-                "listNameP" to listName.value
-            )
-
-            firestore.collection("ListasP").document("ListaP")
-                .collection("ListaP").document(codeList)
-                .set(listData)
-                .addOnSuccessListener {
-                    val uid = auth.currentUser?.uid
-                    if (uid != null) {
-                        addCodeListToUser(uid, codeList)
-                    }
-                    navController.navigate(NavigationState.AllLists.route)
-                }
-                .addOnFailureListener { e ->
-                    println("Error al crear la lista: ${e.message}")
-                }
-        } else {
-            println("Faltan campos por completar.")
-        }
-    }
-
     Scaffold(
         topBar = { topNavBar(navController = navController) },
         bottomBar = { AppBar(navController) }
-    ){paddingValues ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFfef0e1))
                 .padding(paddingValues)
-        ){
+        ) {
             Banner(texto = R.string.WishList)
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Text(text= stringResource(id = R.string.listName), color= Color.Black)
+                    .padding(16.dp)
+            ) {
+                Text(text = stringResource(id = R.string.listName), color = Color.Black)
                 smallTexField(
-                    text = listName.value,
-                    onTextChange = { listName.value = it}
+                    text = listName,
+                    onTextChange = { viewModel.updateListName(it) }
                 )
-                Spacer(modifier = Modifier.padding(8.dp))
-                Text(text= stringResource(id = R.string.event), color= Color.Black)
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    modifier = Modifier.padding(16.dp)
                 ) {
                     items(events) { event ->
                         EventCard(
                             text = event.text,
                             imageRes = event.imageRes,
-                            isSelected = selectedEvent.value == event,
-                            onClick = { selectedEvent.value = event }
+                            isSelected = selectedEvent == event,
+                            onClick = { viewModel.selectEvent(event) }
                         )
                     }
                 }
-                Spacer(modifier = Modifier.padding(8.dp))
                 LargeButtons(
                     texto = R.string.createList,
-                    onClick = { createList()},
+                    onClick = {
+                        viewModel.createList(
+                            onNavigate = { navController.navigate(NavigationState.AllLists.route) },
+                            onError = { println(it) }
+                        )
+                    },
                     buttonColor = Color(0xFFb2422d),
                     textColor = Color(0xFFfef0e1)
                 )
