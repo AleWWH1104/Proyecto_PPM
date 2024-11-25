@@ -66,20 +66,8 @@ fun ListCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(onClick = {
-                    // Lógica para eliminar la lista
-                    val currentUid = FirebaseAuth.getInstance().currentUser?.uid
-                    if (currentUid != null && codeList.isNotEmpty()) {
-                        deleteList(codeList, currentUid) { success, error ->
-                            if (success) {
-                                // Llama al callback para indicar que esta lista debe ser eliminada
-                                onListChange(codeList)
-                            } else {
-                                println("Error al eliminar la lista: $error")
-                            }
-                        }
-                    } else {
-                        println("Error: UID o codeList inválidos.")
-                    }
+                    // Llama al callback para eliminar esta lista
+                    onListChange(codeList)
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
@@ -106,7 +94,6 @@ fun ListCard(
         }
     }
 }
-
 
 
 @Composable
