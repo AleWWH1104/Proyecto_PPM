@@ -9,6 +9,8 @@ import androidx.compose.material3.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,76 +35,22 @@ import com.wishify.proyecto_ppm.ui.elements.LargeButtons
 import com.wishify.proyecto_ppm.ui.elements.LargeTextField
 import com.wishify.proyecto_ppm.ui.elements.topNavBar
 
+import com.wishify.proyecto_ppm.ui.catalogs.repository.AddItemRepository
+import com.wishify.proyecto_ppm.ui.catalogs.viewmodel.AddItemViewModel
 
 @Composable
-fun AddItem(navController: NavController = rememberNavController(), codeList: String, productID: Int, productName: String) {
+fun AddItem(navController: NavController, codeList: String, productID: Int, productName: String) {
+    // Inicializamos el repositorio y el ViewModel usando `remember`
+    val repository = remember { AddItemRepository() }
+    val viewModel = remember { AddItemViewModel(repository) }
 
-    println("Esta en AddItemscreen")
-    println("con el codeList: $codeList")
-    println("con el productID es: $productID")
-    println("con el productname es: $productName")
+    // Estados observados desde el ViewModel
+    val categoryName by viewModel.categoryName.collectAsState()
+    val productImageUrl by viewModel.productImageUrl.collectAsState()
 
-    val categoryName = remember { mutableStateOf("Cargando...") }
-    val productImageUrl = remember { mutableStateOf<String?>(null) }
-
-    val categoryID_Cicle = remember { mutableIntStateOf(0) }
-
-    val firestore = FirebaseFirestore.getInstance()
-
-    // Obtener la categoría asociada al producto y urldel prod
+    // Cargar datos al montar el componente
     LaunchedEffect(productID) {
-        try {
-            val wishWebService = WishWebService() // Crear instancia del servicio
-
-            // Paso 1: Obtener todas las categorías
-            val categories = wishWebService.getWishCategories()
-
-            // Paso 2: Iterar categorías y buscar el producto
-            var foundCategoryName: String? = null
-            var foundProductImageUrl: String? = null
-            var foundCategoryID_cicle: Number? = null
-            for (category in categories) {
-                val products = wishWebService.getCategoryFilter(categoryID = category.id)
-                val product = products.find { it.itemID == productID }
-                if (product != null) {
-                    foundCategoryName = category.category // Guardar el nombre de la categoría
-                    foundCategoryID_cicle = category.id
-
-                    foundProductImageUrl = product.imageUrl // Guardar el URL de la imagen
-                    println("found URL img: $foundProductImageUrl")
-                    productImageUrl.value = foundProductImageUrl
-                    categoryID_Cicle.value = foundCategoryID_cicle
-                    break // Terminar la búsqueda
-                }
-            }
-
-            // Actualizar estados con los valores encontrados o mensajes de error
-            categoryName.value = foundCategoryName ?: "Categoría no encontrada"
-            //productImageUrl.value = foundProductImageUrl
-        } catch (e: Exception) {
-            categoryName.value = "Error al cargar categoría"
-            println("Error al buscar la categoría: ${e.message}")
-        }
-    }
-
-    println("URL img: $productImageUrl")
-    println("URL img con value : ${productImageUrl.value}")
-
-    // logica para agregar a firebase
-    fun addProductToDatabase() {
-        val documentRef = firestore.collection("ListasP").document("ListaP")
-            .collection("ListaP").document(codeList)
-
-        // Actualizar las listas en Firestore
-        documentRef.update(
-            "itemListCategID", FieldValue.arrayUnion(categoryID_Cicle.value),
-            "itemListProdID", FieldValue.arrayUnion(productID)
-        ).addOnSuccessListener {
-            println("Producto agregado exitosamente. en el anterior")
-            navController.navigate(NavigationState.AllLists.route) // Navegar después de éxito
-        }.addOnFailureListener { e ->
-            println("Error al agregar el producto: ${e.message}")
-        }
+        viewModel.loadProductData(productID)
     }
 
     Scaffold(
@@ -124,14 +72,13 @@ fun AddItem(navController: NavController = rememberNavController(), codeList: St
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    if (!productImageUrl.value.isNullOrEmpty()) {
+                    if (!productImageUrl.isNullOrEmpty()) {
                         Image(
-                            painter = rememberAsyncImagePainter(model = productImageUrl.value),
+                            painter = rememberAsyncImagePainter(model = productImageUrl),
                             contentDescription = "Imagen del producto",
                             modifier = Modifier
                                 .width(250.dp)
@@ -148,7 +95,6 @@ fun AddItem(navController: NavController = rememberNavController(), codeList: St
                             textAlign = TextAlign.Center
                         )
                     }
-
                     Column(
                         modifier = Modifier
                             .weight(0.5f)
@@ -159,22 +105,26 @@ fun AddItem(navController: NavController = rememberNavController(), codeList: St
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
-                            text = categoryName.value,
+                            text = categoryName,
                             style = MaterialTheme.typography.titleSmall
                         )
                     }
                 }
                 Spacer(modifier = Modifier.padding(16.dp))
                 Text(
-                    "Agrega una descripcion mas especifica para tu deseo (colores/tamaño/marca/etc).\n\nEj. Unas botas largas de color negro de Zara ...",
+                    "Agrega una descripción más específica para tu deseo (colores/tamaño/marca/etc).\n\nEj. Unas botas largas de color negro de Zara ...",
                     textAlign = TextAlign.Center
                 )
                 LargeTextField()
                 Spacer(modifier = Modifier.padding(8.dp))
-                LargeButtons(texto = R.string.addBtn, onClick = {
-                    addProductToDatabase()
-                    //navController.navigate(NavigationState.AllLists.route)
-                }, buttonColor = Color(0xFFb2422d), textColor =Color(0xFFfef0e1) )
+                LargeButtons(
+                    texto = R.string.addBtn,
+                    onClick = {
+                        viewModel.addProductToDatabase(codeList, productID, navController)
+                    },
+                    buttonColor = Color(0xFFb2422d),
+                    textColor = Color(0xFFfef0e1)
+                )
             }
         }
     }
