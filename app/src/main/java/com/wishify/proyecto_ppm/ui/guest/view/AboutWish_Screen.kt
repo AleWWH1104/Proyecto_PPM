@@ -81,9 +81,10 @@ fun AboutWish(
                             painter = rememberAsyncImagePainter(model = productImageUrl),
                             contentDescription = "Imagen del producto",
                             modifier = Modifier
-                                .width(250.dp)
+                                .weight(0.5f)
+                                .width(150.dp)
                                 .height(250.dp)
-                                .padding(16.dp)
+                                .padding(2.dp)
                         )
                     } else {
                         Text(

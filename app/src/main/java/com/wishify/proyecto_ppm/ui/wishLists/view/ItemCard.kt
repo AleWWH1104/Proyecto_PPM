@@ -2,6 +2,7 @@ package com.wishify.proyecto_ppm.ui.wishLists.view
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,22 +45,27 @@ fun ItemCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .width(180.dp)
+            .height(200.dp)
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
+        Image(
+            painter = imageItem,
+            contentDescription = "Imagen del producto",
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.4f),
+            contentScale = ContentScale.Crop
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(0.6f)
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = imageItem,
-                contentDescription = "Imagen del producto",
-                modifier = Modifier
-                    .height(120.dp)
-                    .width(120.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = nameItem,
                 style = MaterialTheme.typography.bodyMedium,
@@ -84,21 +90,26 @@ fun ItemCardGuestList(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp),
+            .width(180.dp)
+            .height(170.dp)
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         onClick = onClick
     ) {
+        Image(
+            painter = imagePainter,
+            contentDescription = nameItem,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.5f),
+            contentScale = ContentScale.Crop
+        )
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().weight(0.5f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(
-                painter = imagePainter,
-                contentDescription = nameItem,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

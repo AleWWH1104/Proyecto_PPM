@@ -19,7 +19,7 @@ import com.wishify.proyecto_ppm.ui.guest.view.ViewGuestList
 @Composable
 fun AppNavigation(navController: NavHostController){
 
-    NavHost(navController = navController, startDestination = NavigationState.Home.route ) {
+    NavHost(navController = navController, startDestination = NavigationState.Home.route) {
         //Inicio de Sesion
         composable(route = NavigationState.Home.route){
             HomeScreen(navController)

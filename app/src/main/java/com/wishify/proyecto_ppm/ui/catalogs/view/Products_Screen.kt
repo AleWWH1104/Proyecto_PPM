@@ -53,7 +53,8 @@ fun ProductsByCategory(categoryID: Int, titleCategory:String, codeList: String, 
                     text = codeList,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 35.sp, fontWeight = FontWeight.Bold),
                     color = Color(0xFFb2422d),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    lineHeight = 30.sp
                 )
                 LazyColumn(
                     contentPadding = PaddingValues(16.dp),
